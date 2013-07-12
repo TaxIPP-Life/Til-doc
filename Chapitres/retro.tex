@@ -1,0 +1,55 @@
+%  point sur le retro %
+
+
+Dans l'ensemble, on garde sur la partie rétro du modèle les mêmes équations que dans la simulation proprement dite. 
+Il faut donc penser à mettre à jour les méthodes utilisées ici au fur et à mesure qu'on améliore les méthodes de la simulation.\\
+
+Comme il s'agit d'une simulation différente, il est logique d'avoir des fichiers différents.
+On pourrait presque avoir un dossier modele_retro à la racine du dossier \txl .
+Là, on économise la reproduction de l'architecture du dossier modèle et des paramètres mais ce n'est probablement pas un argument suffisant pour ne pas gagner en clarté. \\
+
+La simulation en retro a quelques particularités pour essayer de reproduire la population en utilisant au mieux les informations disponibles dans l'enquête.
+La plus grande particularité par rapport à la projection est que dans la partie retro, on ne traite pas tout l'échantillon uniformément, il faut dissocier les personnes pour qui on a une information de celle pour qui on n'en a pas. 
+
+\section{Les parcoures matrimoniaux}
+
+\subsection{En couples en 2009}
+Les questions ne sont pas posées de la même façon selon sa situation au moment de l'enquête. 
+Pour les gens en couple, on peut savoir si c'est le premier couple pour chacun des deux. 
+Sinon, on sait seulement que l'un des deux a déjà été en couple. 
+Pareil pour le mariage. 
+On connait aussi la date de formation du couple. 
+A noter que pour l'instant couple = habiter ensemble dans le modèle alors que l'année déclarée n'est pas celle-là probablement. 
+
+\subsection{Célibataires et veufs en 2009}
+Si la personne n'a jamais été en couple (un célibataire donc), le problème est réglé pour elle. 
+Sinon, on peut sait quand a débuté et s'est terminé la dernière union. 
+On sait aussi, et c'est appréciable s'il y en a eu d'autre avant ou pas. 
+
+
+\subsection{Lien parents-enfants}
+On associe des parents aux enfants.
+Remarque à déplacer : on doit chercher les enfants n'ayant qu'un parent vivant peut-être de manière privilégiée parmi les veufs. 
+
+Parfois, les parents que l'on associe à un enfant hors ménage ne vivent pas ensemble.
+Il faut nécessairement les unir à un moment. Si possible au moment de la naissance de leur enfant. 
+
+Tout ceci est dit mais n'est pas fait pour le moment. 
+
+\subsection{Conclusion}
+Pour les dernières unions (éventuellement en cours pour les gens en couple) on connait les dates. 
+Pour la formation de ce couple, quand on ne connait pas le conjoint mais quand on sait qu'il n'est pas décédé (on revient plus bas sur cette assertion qui est fausse), en court, pour les célibataires (et pas les veufs) dont on sait qu'il y a une une précédente union, on doit chercher un conjoint. 
+
+Pour les couples, on fait pareil. 
+Mais la proba de chercher est moins grande puisqu'on ne sait pas s'ils sont si l'info concerne la personne de référence, le conjoint ou les deux. 
+
+On cherche parmi avant leur mariage si on sait qu'ils ont peut-être eu une autre union et parmi les célibataires. 
+
+
+
+
+
+
+
+
+

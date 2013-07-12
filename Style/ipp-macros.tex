@@ -1,0 +1,118 @@
+% MACROS %
+
+% Macro d'inclusion de graphiques pdf %
+\newcommand{\graphique}[2][1]{\begin{minipage}{\linewidth}\begin{center}\includegraphics[width=#1\linewidth,clip]{Figures/#2}\end{center}\end{minipage}}
+
+% Macro pour créer une figure (avec notes optionnelles) dans le corps du texte %
+\newenvironment{fig}[4][1]{
+\begin{figure}[!ht]
+\begin{center}
+\begin{minipage}{14cm}
+\caption{#2}
+\end{minipage}
+\end{center}
+\begin{center}
+\begin{minipage}{#1}
+\begin{center}#3
+\end{center}
+\end{minipage}
+\if!#4!\empty \else \\
+\begin{scriptsize}
+\begin{minipage}{#1}\vspace{0.2cm} \par #4
+\end{minipage}
+\end{scriptsize} \fi }
+{\end{center}
+\end{figure}}
+
+% Macro pour créer une figure (avec notes) sur une page séparée %
+\newenvironment{figp}[4][1]{
+\begin{figure}[p]
+\begin{center}
+\begin{minipage}{14cm}
+\caption{#2}
+\end{minipage}
+\end{center}
+\begin{center}
+\begin{minipage}{#1}
+\begin{center}#3
+\end{center}
+\end{minipage}
+\if!#4!\empty \else \\
+\begin{scriptsize}
+\begin{minipage}{#1}\vspace{0.2cm} \par #4
+\end{minipage}
+\end{scriptsize} \fi }
+{\end{center}
+\end{figure}}
+
+% Macro pour créer un tableau (avec notes optionnelles) %
+\newenvironment{tab}[4][1]
+{\def\TMP{#3}\newdimen\TMPsize\settowidth{\TMPsize}{\TMP}
+\begin{table}[!ht]
+\begin{center}
+\begin{minipage}{14cm}
+\caption{#2}
+\end{minipage}
+\end{center}
+\begin{center}
+\begin{minipage}{#1}
+\resizebox{\textwidth}{!}{#3}
+\end{minipage}
+\if!#4!\empty \else \\
+\begin{scriptsize}
+\begin{minipage}{#1}\vspace{0.2cm} \par #4
+\end{minipage}
+\end{scriptsize} \fi }
+{\end{center}
+\end{table}}
+
+% Macro pour créer une longtable (avec notes optionnelles) %
+\newlength{\tabwidth}
+\setlength{\tabwidth}{14.2cm}
+\newlength{\widthcola}
+\newlength{\widthcolb}
+
+\newenvironment{longtab}[3][0.25]{
+\setlength{\widthcola}{\tabwidth*\real{#1}}
+\setlength{\widthcolb}{\tabwidth-\tabwidth*\real{#1}}
+\setstretch{1.2}
+\begin{longtable}[c]{|>{\ttfamily}p{\widthcola}|p{\widthcolb}|}
+\caption{#2}\\
+#3}{\end{longtable} \setstretch{1.7}}
+
+%\newenvironment{longtab}[2]{\setstretch{1.2} \begin{longtable}[c]{|>{\ttfamily}p{5.4cm}|p{8.8cm}|}
+%\caption{#1}\\
+%#2}{\end{longtable} \setstretch{1.7}}
+
+% Pour permettre de répartir du texte sur plusieurs lignes dans un tableau %
+\newcommand{\minitab}[2][c]{\begin{tabular}{#1}#2\end{tabular}}
+
+% Macro variables %
+\newcommand{\eme}{\textsuperscript{e}~}
+\newcommand{\er}{\textsuperscript{er}~}
+\newcommand{\ere}{\textsuperscript{ère}~}
+\newcommand{\cy}{\citeyear}
+\newcommand{\cyp}{\citeyearpar}
+
+% Création du logo TAXIPP
+\makeatletter
+\def\TAXIPP{TAX\kern-.05em\lower-.19ex\hbox{${\color{BlueGreen} \scalebox{1.4}{\underarc[1]{\overarc[1]{\textcolor{black}{\scalebox{0.7}{ipp}}}}}}\hspace{0.5ex}$}\@}
+\makeatother
+
+% Création du logo PENSIPP
+\makeatletter
+\def\PENSIPP{PENS\kern-.05em\lower-.19ex\hbox{${\color{BlueGreen} \scalebox{1.4}{\underarc[1]{\overarc[1]{\textcolor{black}{\scalebox{0.7}{ipp}}}}}}\hspace{0.5ex}$}\@}
+\makeatother
+
+\newcommand{\til}{TaxIPP-Life}
+\newcommand{\txl}{TaxIPP-Life}
+
+% Création du logo TaxIPP-Life
+\makeatletter
+\def\txl{Tax\kern-.05em\lower-.19ex\hbox{${\color{BlueGreen}
+\scalebox{1.4}{\underarc[1]{\overarc[1]{\textcolor{black}{\scalebox{0.7}{ipp}}}}}}\hspace{0.5ex}$}\@}
+\makeatother
+
+%\makeatletter
+%\def\txl{PENS\kern-.05em\lower-.19ex\hbox{${\color{BlueGreen} \scalebox{1.4}{\underarc[1]{\overarc[1]{\textcolor{black}{\scalebox{0.7}{ipp}}}}}}\hspace{0.5ex}$}\@}
+%\makeatother

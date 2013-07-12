@@ -1,0 +1,35 @@
+\section{La bible de \til }
+Ce document s'attache à décrire le modèle TaxIPP-Life. Pour un modèle de microsimulation, on doit avoir plusieurs niveau de description correspondant à différent type de lecteurs. 
+On peut définir en particulier trois grandes catégories, ceux qui veulent savoir comment le modèle marche et ceux qui veulent savoir comment l'utiliser pour faire des simulations et ceux qui veulent y participer à sa construction. 
+Les premiers veulent savoir comment le modèle réalise ses simulations, quelles sont les hypothèses qui ont été faites et se faire une idée générale du modèle. 
+Les deuxièmes veulent pouvoir installer les programmes comprendre ce qu'ils doivent changer en fonction de leur besoin.
+Enfin, les derniers doivent savoir quels sont les choix de programmation qui ont été retenus (au moins dans les grandes lignes) et avoir toutes les informations nécessaires pour pouvoir améliorer le code.
+\\ 
+
+En général pour parler à ces différents publics, on sépare la documentation en un document technique et un guide de l'utilisateur.
+Ici, les deux documents sont rassemblés. Ce document se veut donc exhaustif pour essayer de limiter l'éparpillement des informations.
+On fera attention à bien permettre plusieurs niveau de lecture.
+Certains chapitre entier seront entièrement destiné à un seul public.
+Pour la description du modèle étape par étape, on utilisera une structure présentant d'abord la simulation, puis expliquant le code, le lecteur en fonction de ce qui l'intéresse pourra donc passer rapidement sur certaines parties sans problèmes. 
+L'intérêt de cela est aussi de permettre de pouvoir entrer dans chaque partie du programme directement et de s'y consacrer plus ou moins en fonction de son sujet d'intérêt.\\
+
+Si on voulait tout de même publier un guide de l'utilisateur ou un document technique, on pourrait sélectionner les informations de ce document. 
+Toutefois, comme on veut que ce présent document reste la bible associée au modèle \txl , tout ce que l'on ajoute à ces publications doit se retrouver ici.
+
+\section{Message aux codeurs}
+
+Je m'adresse ici particulièrement et uniquement à ceux qui vont être amené à changer le code.
+Si vous continuer à lire, c'est donc que vous aller modifier le modèle. 
+L'améliorer !
+La microsimulation est un domaine à part en économie. 
+Par rapport aux études classiques, le point important est qu'il s'agit d'un projet d'ampleur qui ne doit pas répondre à une seule question prédéfinie à l'avance. 
+\txl \ est complètement dans cet état d'esprit et a été écrit précisément pour être ouvert et permettre différentes études. 
+Un bon point c'est qu'on ne part pas de rien. 
+En revanche, il y a une contrepartie c'est que chacun doit veiller à ce qu'il faut veiller à ce que les programmes soient propres, à faire en sorte dans la mesure du possible que rien de ce que l'on fait ne limite ce que les autres peuvent ou pourront faire.
+L'investissement que chacun doit faire pour les autres se traduit aussi par la mise à jour de ce document.
+D'expérience, il y a beaucoup de perte possible dans un tel modèle. 
+La règle est simple, si c'est pas ou mal documenté ce que vous avez fait ne sert à rien.
+Les gens qui prendront votre suite, s'ils savent ce que vous avez fait et pourquoi vous l'avez fait, pourront s'appuyer dessus, ne pas défaire minutieusement ce que vous avez codé pour se rendre compte bien après qu'en fait c'était bien\footnote{Ceci dit, il faut veiller à ne pas écraser ce que les prédécesseurs ont fait, si on peut facilement revenir à l'état précédent c'est mieux. Ca sert toujours pour comprendre les évolutions du modèle.}.
+Enfin, il faut bien le dire, lire un code avec une documentation pas à jour est plus destructif qu'autre chose. 
+
+J'espère vous avoir convaincu à la nécessité de travailler proprement et de consacrer ce temps qui a l'air ingrat mais qui laisse votre nom à la postérité, d'ailleurs commencer par mettre votre nom dans l'historique !  

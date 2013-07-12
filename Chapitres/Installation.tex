@@ -1,0 +1,103 @@
+Cette partie explique comment installer tout le programme de \txl . 
+On essaie de faire en sorte qu'aucune connaissance préalable ne soit requise. 
+
+On définit deux grandes étapes. 
+La première est l'installation des programmes Python et R qui permettront de faire tourner les programmes de \txl. 
+On considère qu'il s'agit de l'environnement de l'ordinateur puisqu'il ne s'agit pas de programmes spécifiques à \txl \ de. On donnera ensuite les indications pour installer les éléments de \txl \ proprement dit.\\
+
+Avant de commencer, précisons que même si on essaie d'être le plus complet possible, il ne faut pas hésiter à utiliser internet en cas de doute (et à mettre à jour ce document).
+
+\section{Environnement de l'ordinateur}
+
+\subsection{Installer Python}
+
+You must install Python 2.7.x in the 64 bits versions\footnote{If you're not using a 64-bits version, you may encounter problem in particular for the \of \ part.}. Installation files can be found on : \url{http://www.python.org/download/releases/}.
+
+Make sure both PYTHONDIR and PYTHONDIR$\backslash$ Scripts is in your system PATH where PYTHONDIR is the directory where you installed Python (C:$\backslash$  Python by default). It would be usefull later.
+
+Then you need to install all our other dependencies (third-party packages for Python).
+If you are on Windows, the easiest way to install them is to use the (unoffical) binary packages from Christoph Gohlke at: \url{http://www.lfd.uci.edu/~gohlke/pythonlibs/}. You can also install first the pip package and then install from a command prompt\footnote{I think it should be done for one of required dependencies because it is not present on Gohlke's page.}\\
+
+The package linked to the simulation (and Liam2) are : 
+\begin{itemize}
+\item Numpy
+\item PyTables
+\item Numexpr
+\item PyYAML
+\item carray
+\end{itemize}
+
+In addition, to run the legislation (\of) : 
+\begin{itemize}
+\item scipy
+\item pandas
+\item rpy2
+\item PyQt4
+\item dateutil
+\item distribute
+\item openpyxl
+\item matplotlib
+\item pywin32
+\item ipython
+\end{itemize}
+Some of these packages are used only for visual interface of \of \ you may don't need. 
+So far, distinction has not been made. Anyways, it's not too costly to install more package. \\
+
+You're also adviced to install three more dependencies. 
+They can be useful.
+You're invited to visit easy-to-find corresponding website to install and to use.
+\begin{itemize}
+\item RunSnakeRun : to be an expert in calculus time used by \txl .
+\item Sphinx : to build an write a documentation. For \txl , documentation is done in \LaTeX , bu \of \ and Liam2 use it. 
+\item Vitables : to see tables. It need to be written here but there is a way to open Vitables easily you should definitely find\footnote{So far, I use the viewer.py file which I open with python.exe with a shortcut.}.
+\end{itemize}
+And just in case, you should know Cython , used by Liam2, than can build a C extension. 
+
+\subsection{Installer R}
+L'installation de R, ne devrait pas poser de problème.
+Il faut une version pas trop vieille pour l'utilisation de la librairie rpy2.
+
+Bien sûr, on ne saurait trop recommander l'usage de RStudio, une interface visuelle bien agréable. 
+
+\subsection{Interface Python et R}
+
+Pour que Python et R puisse se parler, il faut modifier le path system comme l'explique la documentation du package rpy2. Trouver comment modifier les variables d'environnement associé à la session. Ajouter deux nouvelles variables : 
+\begin{itemize}
+\item R\_HOME : Path to your R folder (C:$\backslash$Program Files$\backslash$R$\backslash$R-2.15.2 by default).
+\item R\_USER : Your name. I must confess I didn't find what it is for.
+\end{itemize}
+
+\subsection{Et \LaTeX \ ? Et Git ? }
+
+Pour modifier le présent document, vous êtes encouragé à installer \LaTeX \ avec votre éditeur préféré.\\
+
+Pour trouver et installer les fichiers de \txl et la meilleure solution est d'installer GitHub. Sans que cela soit indispensable,  on vous conseille d'utiliser cet outil même au-delà de l'utilisation de \txl . 
+Il en sera plus question dans la section suivante.
+
+\section{Les fichiers de \til}
+\subsection{Où trouver les sources de \til}
+On recommande de lire la section sur les répértoires d'installation qui suit celle-là avant de se lancer.\\
+ 
+Les fichiers de \txl \ se trouve sur GitHub à l'adresse suivante: \url{https://github.com/AlexisEidelman/til}.
+D'ici vous pouver charger un zip ou bien charger ces éléments à partir de GitHub si vous l'avez installé.
+Disons en passant, que si vous souhaitez contribuer, d'une manière ou d'une autre au développement de \txl , vous pouvez forker le dossier et user des pull request et des issues.
+Si vous ne voulez pas utiliser GitHub, que ce ne soit pas un obstacle à une éventuelle contribution.
+Vous pouvez envoyer vos remarques et fichiers à alexis.eidelman@ipp.eu .\\
+
+En fait, le dossier du repository "til" n'est pas suffisant.
+Il faudra aussi, installer OpenFisca que l'on peut trouver aussi sur GitHub : \url{https://github.com/openfisca/openfisca}.
+Et de même, il faut aussi installer les fichier correspondant à Liam2.
+Là, aussi on trouvera sur GitHub, une version modifiée qui adaptée à \txl . 
+
+\paragraph{Pourquoi pas un seul dossier ?}
+OpenFisca et Liam2 sont des projets dissociés de \txl . En les mettant dans des dossiers séparés, on peut, surtout quand on utilise GitHub, continuer à faire des mises-à-jour facilement. On peut aussi faire remonter à ces projets des modifications. Cela est surtout vrai pour OpenFisca qui est sur GitHub alors que Liam2 utilise plutôt des mises-à-jour de temps en temps. 
+
+\subsection{Chemin d'installation}
+Pour l'instant, on recommande de tout installer à la racine du lecteur C: directement. Il n'est pas impossible de changer la place des dossiers mais pour l'instant, il n'y a pas un fichier de configuration qu'il suffirait de remplir pour que les programmes sachent à chaque fois trouver le bon emplacement. \\ 
+
+Le chemin des fichiers src d'OpenFisca et src\_liam de Liam2 doivent être ajoutés au PythonPath. Ceci se fait par exemple très facilement pour les utilisateurs d'Aptana.
+
+\section{Ma première simulation}
+
+De là, les choses sont plutôt simples. Il faut avoir fait tourné run\_all dans le fichier data$\backslash$Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
+Puis il faut ouvrir le fichier  pgm$\backslash$run\_til.py la première fois, il faut décommenter la ligne main.main() en début de programme, c'est elle qui fait la conversion des fichiers Rdata que vous avec créés juste avant en un fichier simple2009.h5 à partir duquel le modèle tourne.

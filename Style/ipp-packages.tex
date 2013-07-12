@@ -1,0 +1,67 @@
+\documentclass[12pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}             % Chargement de la mise en page française
+\usepackage{geometry}                   % Pour paramétrer la mise en page (marges, etc.)
+\usepackage{setspace}                   % Pour modifier l'espacement des lignes
+\usepackage{color}                      % Pour utiliser la couleur dans le texte
+\usepackage{fancyhdr}                   % Pour personnaliser les en-têtes
+\usepackage{pdfpages}                   % Pour inclures des pages pdf au moment de la compilation
+\usepackage{sectsty}                    % Pour changer le style des titres de chapitres, de sections, etc.
+\usepackage{charter}                    % Pour charger la fonte "Charter BT Roman"
+\usepackage{natbib}                     % Pour personnaliser le style de la biblio
+\usepackage{amsmath,amssymb, amsthm}    % Nécessaire pour les formules
+\usepackage{eurosym}                    % Pour le symbole "euro"
+\usepackage{booktabs}                   % Pour utiliser des lignes de tableaux de différentes épaisseurs
+\usepackage{enumitem}                   % Pour personnaliser le style des listes à puces
+\usepackage{array}
+\usepackage{arcs}                       % Pour réaliser le logo TAXIPP
+\usepackage{slashbox}                   % Pour réaliser le logo TAXIPP
+\usepackage{MnSymbol}                   % Pour réaliser le logo TAXIPP
+\PassOptionsToPackage{usenames,dvipsnames,svgnames}{xcolor} % Pour réaliser le logo TAXIPP
+\usepackage{xcolor}                     % Pour réaliser le logo TAXIPP
+\usepackage{longtable}                  % Pour réaliser des tableaux sur plusieurs pages
+\usepackage[pdftitle={Guide méthodologique IPP -- TAXIPP 0.0},
+            pdfauthor={Institut des politiques publiques},
+            colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}  %pour que le fichier PDF contiennent des liens hypertexte
+
+% Taille des marges %
+% Version impression
+%\geometry{a4paper, vmargin=2.5cm, hmargin=2.5cm, top=1.3in, headheight=15pt, bindingoffset=0.8cm, twoside}
+
+% Version online
+\geometry{a4paper, vmargin=2.5cm, hmargin=2.9cm, top=1.3in, headheight=15pt, twoside}
+
+
+% Chargement des couleurs de la charte graphique de l'IPP %
+\definecolor{ippdark}{RGB}{0,81,101}
+\definecolor{ipplight}{RGB}{0,138,155}
+
+% Pour sélectionner la police "sans serif" de la classe "Charter" %
+\fontfamily{sffamily}\fontseries{m}\selectfont
+
+% Style des chapitres, sections, etc. %
+\chapterfont{\color{ipplight}{}\fontfamily{pag}\fontseries{b}\fontshape{sc}\selectfont}
+\sectionfont{\color{ippdark}{}\fontfamily{pag}\fontseries{b}\fontshape{n}\selectfont}
+\subsectionfont{\color{ippdark}{}\fontfamily{pag}\fontseries{b}\fontshape{n}\selectfont}
+\subsubsectionfont{\color{ippdark}{}\fontfamily{pag}\fontseries{b}\fontshape{n}\selectfont}
+
+% Style des en-tête %
+\newcommand{\enteteone}[2][]{\pagestyle{fancy}\fancyhead{#1} \lhead[\textsl{#2}]{} \rhead[]{\textsl{#2}}}
+\newcommand{\entetetwo}[3][]{\pagestyle{fancy}\fancyhead{#1} \lhead[\textsl{#2}]{} \rhead[]{\textsl{#3}}}
+
+% Style des pied-de-page %
+%\newcommand{\footertwo}{\pagestyle{fancy}\fancyfoot{} \lfoot[Institut des politiques publiques]{\thepage} \rfoot[\thepage]{Institut des politiques publiques}}
+
+
+% Modification du libellé de la table des matières et des listes de tableaux et figures %
+\addto\captionsfrench{%
+  \renewcommand{\tablename}{\bf \color{ippdark} \textsc{Tableau}}%
+  \renewcommand{\figurename}{\bf \color{ippdark} \textsc{Figure}}%
+  \renewcommand{\contentsname}{Sommaire}%
+  \renewcommand{\listfigurename}{Liste des figures}%
+  \renewcommand{\listtablename}{Liste des tableaux}%
+}
+
+% Pour éviter le message de warning sur l'inclusion de certains fichiers pdf
+\pdfoptionpdfinclusionerrorlevel=0
+\pdfoptionpdfminorversion=6

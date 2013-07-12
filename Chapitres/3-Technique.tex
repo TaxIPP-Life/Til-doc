@@ -1,0 +1,398 @@
+Un certain nombre de questions doivent se poser lorsque l'on fait de la microsimulation dynamique et nous les abordons ici.
+Ce chapitre se concentre donc essentiellement sur le moteur de la simulation, et il n'est pas nécessaire de maitriser les points ci-dessous pour utiliser le modèle. On prendra en revanche soin de lire la seconde section de ce chapitre qui explique comment utiliser \txl.\\
+
+On essaie de garder la même structure pour chaque question afin de faciliter la lecture. 
+On situe d'abord le problème puis on explique la solution retenue par \txl. 
+Cette solution est décrite par son principe de base, puis sa réalisation technique.
+On discute ensuite de ce choix et on donne des pistes d'améliorations potentielles. \\
+
+Les lecteurs sont aussi invités à s'économiser le plus possible la lecture de cette partie sur les réalisations techniques, à ne lire que les parties qui les intéressent et le cas échéant à passer directement au chapitre suivant concernant la simulation proprement dite. \newpage
+
+\section{Alignement}
+
+\subsection{Difficulté}
+
+Un exemple vaudra mieux qu'on long discours. 
+Si on a une population de 100 individus et que l'on veut simuler chaque année 10 naissances et 10 décès, on ne voit pas la difficulté.
+Mais, il s'agit en général de simuler la probabilité de décès de chaque individu. 
+La première idée est de tirer un nombre aléatoire $u_i$ dans une loi uniforme entre 0 et 1 et de la comparer pour chaque individu à la probabilité individuelle (ici dans cet exemple très simple $\frac{1}{10}$) et de sélectionner les cas où $ u_i < P_i$.
+Mais en faisant cela, on aura en espérance dix événements mais pas à chaque tirage.
+On peut s'éloigner de réalité statistique.
+Ne pas pouvoir reproduire des événement connu est embêtant en soi. 
+De plus, on peut aussi avoir un effet en cascade, si on a moins de naissance une année, on en aura moins de naissance issues, quelques années plus tard, de ces naissance. 
+Si on a plus de décès, on n'aura plus les naissance que ces individus décédés aurait pu engendrer. 
+Et même si on a en théorie un compensation partielle l'année suivante, on a en théorie, une instabilité potentielle qui renforce le besoin d'alignement.\\
+
+On est alors tenté de sélectionner les plus hauts scores (les plus hautes probabilité le plus souvent).
+Par exemple, si nos 100 individus sont tous nés successivement avec un an d'écart (ils ont donc entre 1 et 100 ans) et que la probabilité de mourir croit avec l'âge alors on sélectionnera les 10 plus âgés.
+Cela pose encore un problème car, en agissant de la sorte, les probabilités d'événement ne sont plus proportionnelles aux probabilités individuelles.
+Dans notre exemple, un individu de 40 ans aura une probabilité nulle de mourir tant qu'il y aura 10 personnes de plus de 40 ans dans l'échantillon.
+Au final, on aura une simulation sans aucun décès à cette âge donné contrairement à la réalité. 
+
+
+\subsection{La solution de \til}
+
+\txl utilise la méthode déjà implémentée dans liam2. 
+Depuis juin 2013, il est aussi possible d'utiliser une autre méthode dite sidewalk .
+Cela est implémenté dans le code alignement.py de liam.
+Cette méthode est celle utilisée par Destinie. 
+
+\paragraph{Principe}
+
+Pour des informations sur ces méthodes et sur l'alignement en général, il est vivement conseillé de se reporter au survey de Li et O'Donoghue. 
+
+\paragraph{Réalisation}
+Simple application du code de Liam2 ou modification de la fonction align (voir liam-til).
+
+\subsection{Limites et idées d'amélioration}
+On aimerait pouvoir tester encore d'autres méthodes d'alignement.  \\
+
+Pour la sidewalk method, il faut avoir en tête qu'on sélectionne en théorie en fonction de la somme des probabilité, on peut sélectionner moins d'individus que cette somme des probabilité mais pas plus. 
+Il n'y a pas trop de bidouillage possible dans ce cas même si Li et O'Donoghue donne tout de même des pistes.
+Dans \txl, on se contente d'utiliser la somme des probabilités. 
+En fait, on peut même dire qu'on utilise la somme des probabilité quand tout ce qu'on a c'est une probabilité et on utilise l'autre méthode (avec logit_score) lorsque l'on a des données extérieures. 
+\newpage
+
+
+
+\section{Pondérations}
+
+\subsection{Difficulté}
+Une différence entre de la microsimulation dynamique et de la microsimulation statique est que les liens entre individus évoluent lors de la simulation. 
+Si les individus au départ de l'échantillon ont des pondérations cela pose un problème dans les liens.
+En particulier, le problème se pose pour les mariages.
+Comment simuler un marché du mariage si les individus n'ont pas tous la même pondération ?
+On ne peut pas unir un individu représentant 5 000 personnes avec un individu en représentant 10 000 par exemple. 
+Combien aurait-on de telles union ? Quel est la pondération du couple ?
+Combien de nouveau nés sont représentés par une naissance dans ce couple? 
+Il n'y a pas de sens à faire cela. \\
+
+
+\subsection{La solution de \til}
+
+\paragraph{Principe}
+
+Il y n'y a guère que deux options possible. Ou bien lors du matching, si on associe les 5 000 personnes aux 10 000, séparer les 10 000 en deux  groupes de 5 000 (représenter par deux individus dans la base) et marier un des groupes laissant l'autre célibataire. 
+L'autre option est de dupliquer dès le départ les individus pour avoir une pondération de 1 et autant de lignes que l'on a d'individu dans la population étudiée.
+En fait, on n'a besoin que d'une pondération uniforme qui doit être le plus grand commun dénominateur des pondérations en théorie. 
+C'est cette dernière option que l'on retient dans \til. \\
+
+La première a pourtant l'air plus attractive car elle ne demande pas d'agrandir l'échantillon avant la simulation et permet donc de tourner plus vite. 
+Cependant, elle complique beaucoup le code, en particulier pour des étapes d'optimisation.
+De plus, comme la complexité ne doit pas être en élément dirimant, le gain à procéder de la sorte ne serait pas forcément si grand.
+Il faut savoir qu'initialement, les choses étaient codées comme cela dans Liam2 et que cette option a été abandonnée.
+La raison est que, selon l'équipe de Liam2, après quelques périodes, les pondérations devenaient 1 pour tout le monde. 
+Il faut en effet garder à l'esprit que si un individu est "splité" alors il faut aussi spliter toutes les personnes qui lui sont liés : ses enfants par exemple. 
+Après les enfants, et les parents, les conjoints de ceux-ci, puis les parents et enfants des conjoints, etc.
+Une sorte de théorème des 6 poignées de main (pas exactement lui puisqu'on ne regarde que le lien familiaux ici) laisse sous-entendre qu'au bout de quelque simulation de mariage, la population a la taille de la pondération minimale. 
+
+Il est plus simple pour l'instant de ne pas trop s'éloigner de Liam2. 
+De plus, et c'est un point important, la duplication de l'échantillon a l'avantage de permettre au même individu de la base initiale d'avoir plusieurs trajectoire professionnelle par exemple.
+On obtient ainsi de la variabilité tout à fait appréciable au niveau de chaque individu dans le modèle. 
+
+\paragraph{Réalisation}
+
+La duplication des individus se fait au niveau de la préparation des données. 
+La première tentative avait été d'utiliser une étape de Liam2 directement pour cette duplication.
+Finalement, elle se fait en R, ce qui dans ce cas précis est plus simple et plus cohérent.\\
+
+La duplication doit en effet obligatoirement précéder l'étape de fermeture de l'échantillon\footnote{(Mettre une référence en latex vers la section ici). On trouvera aussi dans cette section des chiffres montrant que cela est indispensable} pour que les liens parents enfants respectent les pondérations.
+Comme on veut toutefois pouvoir travailler sur un petit échantillon pour avoir des résultats rapidement, l'étape de duplication est une étape relativement explicite du ficher run\_ all.R. \\
+
+Dupliquer les ménages ou les individus en fonction du poids n'est pas en soit compliqué.
+En revanche, il faut être minutieux sur le liens entre les différentes lignes des tables. 
+
+TODO: Documenter le code
+
+
+\subsection{Limites}
+
+Les programmes sont donc en place.
+En revanche, on a passé dans le paragraphe précédent sur le fait que pour l'instant, la pondération uniforme utilisée n'était pas ni 1, ni le PGCD, ni même la pondération minimale mais 200. 
+Pourquoi cela ? 
+Il faut savoir que dans l'enquête Patrimoine 2010, qui contient un sur-échantillonnage des hauts patrimoines et la plus petite pondération est de 6.
+Même en prenant 6 comme approximation grossière du PGCD, cela nous mène en théorie à une base de plus de 10 millions de lignes dans la base pour représenter la population française.
+C'est beaucoup.
+Le nombre de 200 est donc un arbitrage entre résoudre le problème des pondérations et avoir un échantillon de taille acceptable pour que la simulation tourne en un temps raisonnable.
+Si la partie dynamique ne pose pas trop de problème pour l'instant la simulation de la législation ne supporte pas de trop grande table.
+Pour l'instant, on travaille tout de même à partir de plus de 300 000 individus. \\
+
+On fait donc pour l'instant semblant que tout le monde représente 200 personnes. 
+Toute personne dont la pondération initiale est inférieur à 399 a donc un poids de 200. C'est une sérieuse limite. 
+
+Plus important parce que plus durable, quelle que soit la pondération finale choisie, les pondérations sont réelles et le nombre de duplication entier. Il y a un arrondi à faire (sauf si on veut dupliquer pour avoir une pondération par exemple de un millième mais là ça va vraiment faire beaucoup).
+Une pondération de 1,4 devra être ou bien une ligne de la base ou deux.
+Il se peut donc que la somme des pondérations finale de soit pas la somme des pondérations initiale. 
+Il faut donc garder un facteur multiplicatif pour la production de chiffres finale. Ce n'est pas fait pour l'instant.
+
+\subsection{Idées d'amélioration}
+
+La principale amélioration serait de permettre l'utilisation de tailles plus grande.
+Pour cela un travail sur \of \ est en cours pour alléger les tables et pour permettre de faire des calcul sur des bases plus grandes.
+En fait, depuis juin 2013, il est possible de calculer la législation par morceau (chunk en anglais) et même si ce n'est pas encore tout à fait au point, le problème n'est plus technique encourageant.
+La dernière limite se situe au niveau de R qui semble ne pas aimer les trop grosses tables.
+Mais comme cette étape ne concerne que l'initialisation, il y a certainement possibilité de contourner ce problème.\\
+
+On peut aussi citer l'idée de la technique employée par le modèle DESTINIE de l'Insee qui permet potentiellement d'utiliser un petit échantillon avec pondération uniforme mais conservant la représentativité de l'ensemble de la population.
+Après l'étape de duplication, un nombre de ménage est sélectionnés. 
+Si on effectue cette étape après la fermeture de l'échantillon (ce qui est souhaitable pour optimiser les chances d'avoir des liens parents-enfants représentatif), il faut aller chercher les ménages rattachés. 
+Sinon, il faut effectuer ensuite l'étape de fermeture.
+On fait ainsi une sorte de bootstrap tout en respectant travaillant avec une pondération uniforme, ce qui peut être intéressant.
+
+\newpage
+
+
+\section{Formation des unions}
+
+\subsection{Difficulté}
+
+Par rapport aux autres étapes, la formation des unions à ceci de particulier qu'il s'agit d'un marché et non pas d'une imputation individuelle. 
+Le conjoint imputé à Alain ne dépend pas que d'Alain mais aussi des personnes célibataires en même temps qu'Alain.\\
+
+Nous nous intéressons ici qu'à l'étape de formation des unions et pas de la sélection des candidats potentiels au mariage. \\
+
+Il faut noter que l'on peut avoir deux approches différentes. 
+Comme souvent en microsimulation dynamique, on peut chercher ou bien à modéliser les comportements ou bien à reproduire les observations statistiques.
+Les deux ne sont bien sûr jamais décorrélés. 
+Dans le cas des unions, on peut vouloir ou bien simuler une probabilité de rencontre et de mariage correspondant à ce qui semble être la réalité des rencontre ou bien voir le problème sous un angle de microsimulateur qui serait : 
+A une période de ma simulation donnée, je sais que je dois simuler des unions, comment je vais associer mes personnes célibataires pour reproduire des unions acceptable par exemple en terme de différence d'âge et de diplôme.\\
+
+La solution de \txl \ entre pour l'instant résolument dans le second cadre.  \\
+
+Une fois répondu à cette première question, la mise en application est encore périlleuse.
+En effet, les temps de calcul des solutions optimales invite à les laisser sur le côté.
+Il y a donc un arbitrage à faire entre temps de calcul et précision.
+
+\subsection{La solution de \til}
+
+\paragraph{Principe}
+Nous définissons une valeur, un score, de chaque couple potentiel en fonction des caractéristiques des deux conjoints. 
+L'objectif est ensuite de minimiser cette distance globale pour obtenir le meilleur matching. 
+Une méthode brutale est d'étudier toutes les combinaisons possibles. 
+Il est bien sûr impensable de l'appliquer puisque cela demande un temps de calcul en $n!$ si $n$ est le nombre de mariage. 
+Heureusement, il existe un méthode plus simple, dite méthode hongroise (ou de Munkres-Kuhn-Tucker).
+Elle est tout de même assez coûteuse en temps de calcul, et inapplicable dans notre cadre quand la taille de la base augmente. 
+Elle a aussi le désavantage d'être avant tout pensé pour des matrices carrées, avec autant de candidats des deux côtés du mariage. 
+Pour nous, on aimerait que ce soit l'algorithme d'optimisation qui nous dise les candidats à l'union qui vont rester sur le carreau. \\
+
+La méthode appliquée ici n'est pas du tout raffinée. 
+Il s'agit simplement de faire un matching par le tri.
+On balaie une des deux parties, que l'on appellera la population receveuse. 
+Pour chaque receveur, on cherche parmi les donneurs le meilleur matching.
+Si plusieurs candidats ont la valeur minimale, on en sélectionne un aléatoirement.
+On retire la personne sélectionnée du bassin de donneur et on réitère pour le receveur suivant.
+
+\paragraph{Réalisation}
+
+La réalisation se fait simplement en utilisant une fonctionnalité de liam2. 
+Notons que l'ordre dans lequel on balaye la population receveuse est important.
+La première personne de la liste aura en effet le matching qui de son point de vue est optimal alors que la dernière aura celui ou ceux qui restent. Et peut-être même personne. \\
+Pour l'instant, on ne définit pas d'ordre.
+Pourtant, traditionnellement on essaie de trouver les cas les plus difficile à matcher pour avoir du choix dans le conjoint et ne pas se retrouver avec des couples vraiment trop excentrique. 
+Comme on vient de le laisser entendre, cela implique que ces personnes difficile à matcher le seront toujours.
+
+\subsection{Limites}
+
+Le matching n'a évidemment pour l'instant rien d'optimal.
+En terme d'output d'abord. 
+En terme de calcul, l'étape de matching demeure l'étape la plus gourmande en temps. 
+
+\subsection{Idées d'amélioration}
+
+On pourrait changer l'ordre en fonction du nombre de donneurs et du nombre de receveurs. 
+Si on a moins de receveurs, on sait que l'on va tous les apparier, autant commencer par les plus durs. 
+Si on a plus de receveurs, on sait que certains ne vont pas être matchés, autant laisser les cas compliqués de côté.
+En fait, la bonne façon de faire est probablement d'inverser les positions de donneurs et de receveur en fonction de la taille de leur population.
+Si la population A a moins d'individu que la population B alors c'est elle qui doit être la receveuse. 
+On classe par difficulté A permettant ainsi à ces éléments extravagants d'être apparier avec le meilleur match possible. 
+Les individus difficile à matcher de B seront ceux que l'on va laisser.\\ 
+
+Une idée pour améliorer le temps de calcul de cette étape et aussi introduire un peu de variabilité serait pour chaque receveur de tirer aléatoirement un nombre $k$ de receveurs et de faire la sélection parmi ces $k$ prétendant.
+On passe de $\frac{n(n-1)}{2}$ opérations (en ordre de grandeur et quand on a autant de receveurs que de donneurs) à  $n \times k $ (là aussi en première approximation car il peut y avoir moins de $k$ candidat à la fin), ce qui est intéressant.\\
+
+Il s'agit pour l'instant de reproduire des éléments statistiques, on pourrait imaginer simuler un véritable marché du mariage (voir les travaux de Chiappori par exemple sur le sujet). 
+Comme le problème peut avoir une forme linéaire, ce n'est peut-être pas si couteux en temps de calcul.
+Cela reste un objectif de moyen terme, un beau sujet pour une étude particulière. \newpage
+
+\section{Le choix du pas temporel}
+
+\subsection{Difficulté}
+Le choix d'un pas de simulation relève d'un arbitrage entre précision des calculs d'un côté et simplicité et temps de simulation de l'autre.\\
+
+D'abord précisons, ce qui peut influencer le choix de ce pas temporel. 
+La période se caractérise en fait par la durée minimale de l'événement simulée.
+Par exemple, dans un simulation annuelle, Pour un élément de simulation donné, par exemple la mariage, une simulation annuelle ne dit pas que tous les mariages ont lieux le premier janvier puisqu'on peut simuler une date de mariage. 
+En revanche, une simulation annuelle fait que le mariage durera au moins un an.
+Ce n'est pas tout à fait vrai puisque le mariage puisque cela dépend de l'étape de divorce ou d'autre étapes qui peuvent aussi modifier le statut. 
+Ce qui est vrai c'est qu'il n'y aura pas d'autre mariage simulé pendant un an. 
+On peut à partir de ce petit exemple retenir l'idée qu'il faut associer en théorie une période à chaque variable d'état. 
+On peut en théorie simuler l'emploi de façon mensuelle et le statut marital de façon annuelle par exemple.\\
+
+\subsection{La solution de \til}
+
+\txl \ permet de choisir plusieurs fréquences de simulation.
+On laisse donc libre l'utilisateur de choisir la précision qu'il veut. 
+De plus, dans la simulation la plus fine qui soit, pour l'instant le mois, on permet de ne faire certaines étapes de la simualtion sur des bases plus longues, annuelle ou trimestrielle par exemple.
+
+\paragraph{Principe}
+Liam2 fonctionne avec des périodes qui sont en théorie des entiers et sans signification particulière (ni des années ni des mois).
+On est donc libre de choisir ce que l'on veut tant que l'on numérote les périodes de 1 à $n$.
+Mais on ne tient pas forcément à avoir ce système de numérotation puisqu'il n'est pas très significatif et surtout, puisque la signification change en fonction de la simulation, on ne peut pas utiliser la période à l'intérieur de la simulation, par exemple, on ne peut pas avoir $naissance: period$ ou quoique ce soit utilisant explicitement $period$. 
+Pour permettre l'utilisation de différent pas temporels, on s'impose le format suivant:\textbf{ period = yyyymm}.
+Ce choix répond à la contrainte de travailler avec des entiers.
+Il permet de lire directement l'année ce qui est important. 
+Si on ne travaille qu'avec des années, on part du principe qu'on est en janvier yyyy01. 
+La différence entre l'année 1234, qui s'écrit 123401 et janvier de cette même année est donc uniquement que lorsque 123401 désigne l'année 123402 n'existe pas. 
+Ce n'est peut-être pas le plus judicieux et 123400 pourrait être envisagé sous reserve de répondre à quelques détails techniques. 
+On essaiera aussi de revenir à 1234 plutôt que 123400.\footnote{On notera cependant que cela empêche d'avoir de fonctionner année par année mais en changeant au mois de juillet par exemple.}
+
+Quoi qu'il arrive, on code toujours à partir de l'intervale de temps atomistique: le mois. 
+Les autres périodes de temps sont définies comme étant des multiples de ce mois. 
+On peut donc avoir des périodes qui durent 2 mois (bimensual), 3 mois (quarter), 4 mois (triannual) et 6 mois (semester) ou 12 mois(year).\\
+
+Par rapport à liam2, on introduit dans la console yaml, un paramètre time\_ scale qui est le pas de la simulation, par défaut l'année.  
+Les processus sont effectués à chaque période sauf s'ils ont une périodicité propre plus grande que le pas de la simulation. 
+Par exemple, si le paramètre est 'year' par exemple pour le mariage, est que le pas de la simulation est mensuel alors le process ne sera effectué qu'un fois toute les douzes périodes.
+L'étape et réalisée à chaque fois dès que l'on entre dans la période concerné, donc dans le cas présent en janvier.
+Avec un processus semestriel, on l'effectue au premier mois de chaque semestre, au mois 01 et 07 en l'occurence. 
+On laisse le lecteur généraliser gaiement.
+
+\paragraph{Réalisation}
+
+Par rapport à Liam2, on ajoute le pas temporel au paramètre de sa fonction simulation.
+Notez que le nombre de périodes est toujours le nombre de simulations, si on veut faire tourner deux ans mois par mois, on doit donc mettre 24 mois. 
+On peut imaginer ajouter un jour un paramètre et avoir "period: 5, year" pour multiplier automatiquement par le nombre qui va bien quand le pas temporel est le mois ou le semestre.
+Pratique si on ne maitrise pas la table des 12 jusqu'à 50...\\
+
+On regardera dans simulation.py, comment sont calculées les périodes et comment on travaille sur la périodicité.
+Rien de bien sorcier. \\
+
+Ensuite, un traitement particulier est fait dans alignement pour aller chercher la valeur correspondant au pas temporel du processus. 
+Si on a des données au mois, et qu'on veut simuler à l'année, il faut sommer les 12 mois de l'année. 
+Inversement, si on a des données à l'année et que l'on veut un mois, on prend la valeur annuelle et on la divise par 12 (ou le nombre de sous-périodes).
+Tout ceci est fait dans une fonction kill\_ axis de alignment.py.
+
+On pourrait éventuellement supposer une autre répartition que uniforme sur l'année.
+Par exemple, en faisant une sorte d'interpolation avec les valeurs des années précédente et suivante pour que, dans une phase de croissance par exemple, on garde un progression sur l'année. 
+Toutefois, si on a envie de faire ça, le plus simple est peut-être de changer le fichier csv même si je n'aime pas trop qu'on en fasse pas la différence entre les données sources pures et les données modifiées qui découle d'une hypothèse, aussi intelligente cette dernière soit-elle. \\
+
+Attention, il faire un peu attention dans ce process.
+Ce n'est pas la même chose de dire que (prenons des chiffres ronds) que 40\% \ de décès sur un population de 10 000, ce n'est pas la même chose que 10\% \ sur 10 000 puis 10\% \ sur 9000, puis 10\% \ sur 8 100, etc. 
+Dans un cas, on finit avec une population de 6 000 personnes dans l'autre un population de 7 500 personnes.
+Même si ce cas n'est problématique que lorsque l'événement modifie la base de tirage, il faut faire attention à cela.
+Dans ces cas tirer, un nombre d'événements plutôt qu'une proportion est plus sûr.
+
+Si on aligne, justement, il faut écrire un programme qui permet d'aller chercher automatiquement les valeurs de calage correspondant à la période à partir d'un fichier excel.
+
+Enfin, toujours sur l'alignement, en cas d'utilisation de la méthode "sidewalk", ou d'un nombre définit, on ajoute une option qui donne la période à laquelle l'équation, ou le nombre d'événement donné, correspond. C'est le même principe que pour les données de calage externe. 
+L'intérêt est de pouvoir garder la même équation quel que soit le pas de la simulation. 
+
+\subsection{Limites}
+
+La limite est donc le mois pour l'instant. 
+Passer à la semaine ne devrait pas poser de problème majeur.
+Cela dit, le gain à passer au mois devient assez faible par rapport aux mois.
+De plus les semaines ont le désavantage de ne pas être en nombre ni entier, ni constant dans les années. \\
+
+Pour la partie législation, il faut noter que la simulation est de toute façon annuelle, on aimerait toutefois faire un peu mieux.\\
+
+Pour les simulations faites sur une périodicité plus grande que le mois, elles sont faites en début de période, mais en cas d'événement, il faut faudrait imputer un mois. 
+Si on ne le fait pas, alors tous les changements ont lieux en janvier par exemple.
+Du coup, si la situation sur le marché de l'emploi dépend du statut conjugal, alors on observera un pic en janvier mécanique.
+Cela n'est pas grave en soit mais on peut être sûr qu'un jour quelqu'un perdra ça de vue, et s'en étonnera.
+Par exemple, dans une étude sur l'emploi saisonnier ou même en essayant d'aligner les résultats sur des données trimestrielles. 
+Il est donc sage de simuler dans ces cas un mois d'événement. \\
+
+\subsection{Idées d'amélioration}
+
+
+Simuler un mois d'événement. 
+On peut déjà penser, si on fait un mariage sur une base annuel et un pas de simulation mensuel, à faire tourner le mariage à un mois aléatoire de l'année. 
+Mais autant faire les choses à fond et suivre l'idée de la simulation de la sous-période d'événement.\\
+
+En collaboration avec \of, il faut aussi calculer les transferts en fonction du mois. Le salaire brut serait ainsi mensuel, le RSA trimestriel, les allocations en général mensuelles. 
+Il faut certainement penser un peu les choses pour ne pas avoir à faire tourner 12 fois l'intégralité de la législation. \newpage
+
+
+\section{L'individualisation des transferts}
+
+\subsection{Difficulté}
+Dans une étude sur le cycle de vie, l'unité d'étude est résolument l'individu.
+La composition familiale évolue, le statut aussi, il n'y a bien que l'individu à prendre en compte.
+Mais bon nombre de dispositifs sont familialisés, l'impôt sur le revenu ou les prestations familiale par exemple.
+Il faut alors comprendre quelle est la part du transferts attribuable à chacun. 
+
+\subsection{La solution de \til}
+
+\paragraph{Principe}
+La méthode est pour l'instant un peu \textit{ad-hoc}. 
+L'impôt sur le revenu est partagé entre les deux membres du couple. 
+Les prestations familiales sont partagées entre les enfants à charge. 
+Le reste, minima et allocations logements, sont répartis entre tous les membres du ménage. 
+A chaque fois la répartition se fait à part égale.
+
+\paragraph{Réalisation}
+
+L'individualisation se fait à l'aide d'une fonction qui se trouve dans le dossier til/src/.
+Elle est appelée dans of\_ on\_ liam.py avant le merge avec le registre. \\
+
+Au début, on mettait les résultats brut de \of \ dans les bases (on faisait un merge avec simul.h5).
+L'individualisation était alors faite dans une étape registre. 
+On peut toujours revenir à cela ou bien en restaurant les programmes ou bien, en sommant sur l'entité \footnote{Je préfère cette option qui est plus souple si on veut tester une option avec mariage et une sans par exemple. A ce moment là, si dans une première période on simule le séparer, dans une seconde le non séparé alors c'est mieux de faire la somme au niveau de foy pour la comparaison finale et l'optimisation du conjoint.}
+
+
+\subsection{Limites}
+
+Il y a plusieurs limites, on peut se dire que l'impôt sur le revenus par exemple, devrait être réparti en fonction de revenus. 
+Les allocations familiales dépendant de l'âge de l'enfant, il peut être assez aisé des les répartir plus justement.\\
+
+Essayer de répartir selon une règle unique les transferts alors que ceux-ci dépendent du couple semble assez arbitraire. 
+On pourrait avoir envie d'affecter plutôt une valeur dépendant de l'apport marginal de l'individu. Combien est-ce que le ménage paie d'impôt en plus parce que je suis là. Combien est-ce qu'il recevrait d'allocation logement en moins sans moi ? 
+
+\subsection{Idées d'amélioration}
+
+En dehors d'amélioration dans la méthode utilisée jusque là, une idée est de changer complétement de méthode. 
+Comme le sous-entend la section précédente, utiliser une valeur marginale est tentant. 
+Malheureusement, on peut montrer que cette méthode présente des défauts important.
+Un document de travail de l'Insee montre que la valeur de Shapley est la solution pour garder cette idée, répartir les transferts de manière juste et avec de bonne propriétés. 
+Seul souci, elle doit étudier toutes les configurations du ménage, pour $k$ personnes, il faut étudier $2^k -1$ configurations. 
+Cela dit, il existe certainement des moyens de ne faire tourner ces points que sur un petit nombre de transferts. Par exemple, certains éléments sont individuels et n'ont pas besoin d'être recalculé. 
+On peut aussi avoir des raccourci pour les individus qui sans revenus, pour eux l'influence sur les prestations et même sur l'impôt sur le revenus n'est pas compliqué à implémenter. 
+Il faut tout de même être prudent car les différents éléments de la législation sont imbriqués les uns dans les autres...
+\newpage
+
+\section{Choix du langage}
+
+\subsection{Difficulté}
+
+La question est évidente pour coder un modèle de microsimulation dynamique il faut s'appuyer sur un langage de programmation. Blanchet 2013, étudie cette question et milite pour l'utilisation de R.
+Ceci étant, il part du principe qu'un logiciel statistique est un avantage parce qu'il est en général simple et connu des potentiels développeur de modèle qui sont plus souvent des statisticiens que des programmeurs. 
+
+En dehors de la simplicité d'un langage, son coût mais surtout sa rapidité de calcul doivent être des paramètres déterminant. 
+
+\subsection{La solution de \til}
+
+\paragraph{Principe}
+
+Le moteur de \txl \ est écrit en langage Python. 
+Une interface simplifier (langage YAML) permet pour un certain type d'utilisateur de rester à un niveau très simple.
+Plus simple que pour les langages statistiques. 
+Ces deux niveaux de langage a aussi l'avantage de pouvoir bien séparer ce qui relève du général, du moteur et ce qui relève de la modélisation proprement dite. 
+
+\paragraph{Réalisation}
+
+\subsection{Limites}
+
+\subsection{Mise à jour}
+
+Il y a deux types de mises à jour. 
+Les packages de Python évolue et il est bon de se tenir au courant.
+En particulier pour pandas qui évolue vite et qui est central. 
+
+Ensuite, les nouvelles version de Liam2 demande un peu de travail.
+En effet, d'une part Liam2 n'est pas sur GitHub (même s'ils y pensent). 
+D'autre part et surtout, les modifications apportées aux programmes pour l'utilisation de \txl \ ne sont pas toujours intégrées dans le code de liam2.
+Ainsi lors d'une mise à jour, il y a potentiellement un conflit entre le nouveau fichier de liam et le fichier de liam2 amélioré à la sauce \txl. 
+Il faut donc balayer les modifications pour à la fois tenir compte des améliorations de liam2 (et entre en cohérence avec leur documentation) et à la fois ne pas perdre ce qui a été fait en vue de faire tourner \txl .
+
+

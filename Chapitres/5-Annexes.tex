@@ -1,0 +1,35 @@
+\section*{A. Fichiers sources} \addcontentsline{toc}{section}{A. Fichiers sources}
+
+\begin{longtab}[0.2]{Titre \label{dic_nom}}
+{\hline     \textbf{Variable} & \textbf{Description}\\
+\endfirsthead \multicolumn{2}{l}{\textsl{Suite de la page précédente} ... } \\ \hline
+            \textbf{Variable} & \textbf{Description}\\
+    \hline \endhead
+    \hline
+var     & Description    \\
+
+\hline}
+\end{longtab}
+
+\section*{B. Fichiers simulation} \addcontentsline{toc}{section}{B. Fichiers simulation}
+
+\section*{C. Paramètres} \addcontentsline{toc}{section}{C. Paramètres}
+
+\section*{D. Le matching} \addcontentsline{toc}{section}{D. Le matching Patrimoine-EIC}
+\label{annexe_matching}
+
+Matching : 
+Matrice de cout n à affecter et p à être affecté. On dira personnes et jobs par soucis de simplicité. On veut donc minimiser pour résoudre un problème d'assignement. 
+1)
+La façon la plus simple de faire un matching à partir d'une matrice c'est de procéder séquentiellement, en choisissant pour chaque ligne la valeur optimale puis en retirant la colonne ( l'objet affecté, le job) de la liste des possibilité pour les autres lignes. 
+Evidemment cette méthode,  tourne en $O(n \times  p)$  mais donne rarement la solution optimale. Même en jouant sur l'ordre, on ne peut pas être sûr de rien. A choisir vaut mieux traiter les gens de façon a faire tourner d'abord les gens dont le minimum de la ligne est le plus élevé. C'est eux qui vont tirer le cout global vers le haut. Mais pas tellement mieux?
+Autre chose, sur une matrice répliquée de taille $N*P$ , il faut un temps N*P puisqu'il n'y a pas de raison de prendre l'ordre des  n. On peut toutefois se dire que dans ce cas, on est plus proche de l'optimalité puisqu'on laisse à chacun prendre la valeur minimale. Il faudrait calculer si on veut s'amuser, la probabilité d'être affecté à son optimum?
+2) 
+L'autre méthode sans conteste théorique est le recours  à une méthode d'assignement optimal. La méthode hongroise est géniale puisqu'elle résout effectivement le problème. Son soucis majeur est que pour une matrice carré, elle tourne en $O(n^3)$ . Concrétement, en l'appliquant a priori de bonne façon . Par exemple, en 2013 sur un ordi (config de l'ordi) une matrice de taille 1000 met 22 secondes à tourner. Et même si empiriquement la puissance semble moins grande que 3 ; on arrive vite a de grandes durée, très vite. 
+ On aura donc intérêt à faire des catégories assez petites. 
+Cependant, j'ai montré que pour une matrice étendue, on avait au plus un temps $O(n^4)$. Cela dépend en fait du nombre de valeur différente prise par la duplication, nombre qui peut être au plus  n + p.
+	On aura donc intérêt à dupliquer le plus possible par le même nombre (réhabilite les multiples de 2 tout le temps). 
+
+Généralisation de la remarque précedente : chercher les valeurs communes avant d'appliquer l'algorithme ; ça doit se faire en $n^2 + p^2$ cette histoire, donc mieux?
+Une autre difficulté est la gestion des matrices non carré?La stratégie consistant à ajouter des lignes n'est pas la meilleure probablement. Puisqu'elle fait tourner des calculs sur la matrice la plus grande possible et surtout elle introduit des cas qui sont gourmant en temps. Il faut entrer dans le calcul pour comprendre ça. 
+Bref ça vaut le coup de se pencher à fond sur le problème?
