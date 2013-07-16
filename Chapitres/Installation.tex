@@ -11,12 +11,11 @@ Avant de commencer, précisons que même si on essaie d'être le plus complet possi
 
 \subsection{Installer Python}
 
-You must install Python 2.7.x in the 64 bits versions\footnote{If you're not using a 64-bits version, you may encounter problem in particular for the \of \ part.}. Installation files can be found on : \url{http://www.python.org/download/releases/}.
-
-Make sure both PYTHONDIR and PYTHONDIR$\backslash$ Scripts is in your system PATH where PYTHONDIR is the directory where you installed Python (C:$\backslash$  Python by default). It would be usefull later.
+You have to install Python 2.7.x\footnote{ If you wonder why we use Python 2 and not Python 3, you can find some points here: \url{http://wiki.python.org/moin/Python2orPython3}. For \txl, options were limited by the previous choices of \of \ and Liam2.} in the 64 bits versions\footnote{If you're not using a 64-bits version, you may encounter some issues in particular for the \of \ part.}. Installation files can be found on : \url{http://www.python.org/download/releases/}.
 
 Then you need to install all our other dependencies (third-party packages for Python).
-If you are on Windows, the easiest way to install them is to use the (unoffical) binary packages from Christoph Gohlke at: \url{http://www.lfd.uci.edu/~gohlke/pythonlibs/}. You can also install first the pip package and then install from a command prompt\footnote{I think it should be done for one of required dependencies because it is not present on Gohlke's page.}\\
+If you are on Windows, the easiest way to install them is to use the (unoffical) binary packages from Christoph Gohlke at: \url{http://www.lfd.uci.edu/~gohlke/pythonlibs/}.
+If you can't find a package on Gohlke's website, don't panic, there is a solution below.\\
 
 The package linked to the simulation (and Liam2) are : 
 \begin{itemize}
@@ -40,17 +39,26 @@ In addition, to run the legislation (\of) :
 \item pywin32
 \item ipython
 \end{itemize}
+
+For some dependencies absent from Gohlke's website, installation can be made after having installed packages \textit{setup\_ tool} and \textit{pip} that can be found on the website. 
+Then you can open a command prompt (cmd in windows' search) and just write : pip install package\_ name. \\
+
 Some of these packages are used only for visual interface of \of \ you may don't need. 
-So far, distinction has not been made. Anyways, it's not too costly to install more package. \\
+So far, distinction has not been made.
+Anyway, adding a package is not too costly. \\
+
+Add C:\textbackslash Python27, C:\textbackslash Python27\textbackslash Scripts and C:\textbackslash Python27\textbackslash Lib\textbackslash site-packages\footnote{C:\textbackslash Python27 can be replace by your python directory if you haven't chosen the default installation} is in your system path\footnote{ \label{path} For Windows users, select Properties after a right-click on computer. Then click Advanced system settings > Advanced tab > Environment Variables. Modify Path separating folders by semicolons with no blank.}.
+It's going to be usefull later.\\
 
 You're also adviced to install three more dependencies. 
-They can be useful.
+In particular the first one for table visualization.
 You're invited to visit easy-to-find corresponding website to install and to use.
 \begin{itemize}
-\item RunSnakeRun : to be an expert in calculus time used by \txl .
-\item Sphinx : to build an write a documentation. For \txl , documentation is done in \LaTeX , bu \of \ and Liam2 use it. 
 \item Vitables : to see tables. It need to be written here but there is a way to open Vitables easily you should definitely find\footnote{So far, I use the viewer.py file which I open with python.exe with a shortcut.}.
+\item RunSnakeRun : to be an expert in calculus time used by \txl .
+\item Sphinx : to build an write a documentation. For \txl , documentation is done in \LaTeX , but \of \ and Liam2 use it. 
 \end{itemize}
+
 And just in case, you should know Cython , used by Liam2, than can build a C extension. 
 
 \subsection{Installer R}
@@ -61,43 +69,73 @@ Bien sûr, on ne saurait trop recommander l'usage de RStudio, une interface visue
 
 \subsection{Interface Python et R}
 
-Pour que Python et R puisse se parler, il faut modifier le path system comme l'explique la documentation du package rpy2. Trouver comment modifier les variables d'environnement associé à la session. Ajouter deux nouvelles variables : 
+Pour que Python et R puisse se parler, il faut modifier le path system comme l'explique la documentation du package rpy2. Trouver comment modifier les variables d'environnement associé à la session. Ajouter deux nouvelles variables (voir note de bas de page \ref{path}: 
 \begin{itemize}
-\item R\_HOME : Path to your R folder (C:$\backslash$Program Files$\backslash$R$\backslash$R-2.15.2 by default).
+\item R\_HOME : Path to your R folder (default is C:\textbackslash Program Files\textbackslash R\textbackslash R-2.15.2).
 \item R\_USER : Your name. I must confess I didn't find what it is for.
 \end{itemize}
 
-\subsection{Et \LaTeX \ ? Et Git ? }
+\subsection{Et Aptana, \LaTeX \ ? Et Git ? }
 
 Pour modifier le présent document, vous êtes encouragé à installer \LaTeX \ avec votre éditeur préféré.\\
 
-Pour trouver et installer les fichiers de \txl et la meilleure solution est d'installer GitHub. Sans que cela soit indispensable,  on vous conseille d'utiliser cet outil même au-delà de l'utilisation de \txl . 
-Il en sera plus question dans la section suivante.
+Sans que cela soit complètement indispensable, pour trouver et installer les fichiers de \txl \ la méthode la plus simple est de se servir de GitHub (\url{https://github.com/}).
+On vous recommande de vous inscrire et d'installer l'application. 
+Il en sera plus question dans la section suivante.\\
+
+Enfin, en cherchant rapidement sur internet, vous trouverez comment installer Aptana. 
+Il s'agit d'un éditeur très très pratique pour Python. 
+De plus, il permet d'utiliser les fonctionnalités de Git. 
+S'il y a un mode par défaut pour ça, on conseille d'installer Egit\footnote{Dans help\textbackslash Install New Software , ajouter avec le nom de votre choix http://download.eclipse.org/egit/updates puis dans Eclipse Git Team Provider séléctionner  Eclipse Git Team Provider - Source Code } qui, la plupart du temps est mieux apprécié et plus efficace.
 
 \section{Les fichiers de \til}
-\subsection{Où trouver les sources de \til}
-On recommande de lire la section sur les répértoires d'installation qui suit celle-là avant de se lancer.\\
+
+
+\subsection{Où installer ?}
+Pour l'instant, on recommande de tout installer à la racine du lecteur C: directement. 
+A terme, on pourra changer la place des dossiers mais pour l'instant, il faudrait un fichier de configuration qu'il suffirait de remplir pour que les programmes sachent à chaque fois trouver le bon emplacement. \\ 
  
-Les fichiers de \txl \ se trouve sur GitHub à l'adresse suivante: \url{https://github.com/AlexisEidelman/til}.
-D'ici vous pouver charger un zip ou bien charger ces éléments à partir de GitHub si vous l'avez installé.
+\subsection{Où trouver les sources de \til}
+ 
+Les fichiers de \txl \ se trouve sur GitHub à l'adresse suivante: \url{https://github.com/TaxIPP-Life}.
+Les dossiers Til et Til-Liam sont nécessaire, le dossier Til-Doc, qui comme son nom l'indique contient la documentation, ne peut pas faire de mal.
+D'ici vous pouver charger un zip ou bien (recommandé) charger ces éléments via GitHub.
 Disons en passant, que si vous souhaitez contribuer, d'une manière ou d'une autre au développement de \txl , vous pouvez forker le dossier et user des pull request et des issues.
 Si vous ne voulez pas utiliser GitHub, que ce ne soit pas un obstacle à une éventuelle contribution.
 Vous pouvez envoyer vos remarques et fichiers à alexis.eidelman@ipp.eu .\\
 
-En fait, le dossier du repository "til" n'est pas suffisant.
-Il faudra aussi, installer OpenFisca que l'on peut trouver aussi sur GitHub : \url{https://github.com/openfisca/openfisca}.
-Et de même, il faut aussi installer les fichier correspondant à Liam2.
-Là, aussi on trouvera sur GitHub, une version modifiée qui adaptée à \txl . 
+En fait, les dossier du repository "til" n'est pas suffisant.
+Il faudra aussi, installer OpenFisca que l'on peut trouver aussi sur GitHub : \url{https://github.com/openfisca/openfisca}. 
 
 \paragraph{Pourquoi pas un seul dossier ?}
-OpenFisca et Liam2 sont des projets dissociés de \txl . En les mettant dans des dossiers séparés, on peut, surtout quand on utilise GitHub, continuer à faire des mises-à-jour facilement. On peut aussi faire remonter à ces projets des modifications. Cela est surtout vrai pour OpenFisca qui est sur GitHub alors que Liam2 utilise plutôt des mises-à-jour de temps en temps. 
+OpenFisca et Liam2 sont des projets dissociés de \txl .
+En les mettant dans des dossiers séparés, on peut, surtout quand on utilise GitHub, continuer à faire des mises-à-jour facilement.
+On peut aussi faire remonter à ces projets des modifications.
+Enfin, c'est une manière de dissocier les différentes parties du modèle.
 
-\subsection{Chemin d'installation}
-Pour l'instant, on recommande de tout installer à la racine du lecteur C: directement. Il n'est pas impossible de changer la place des dossiers mais pour l'instant, il n'y a pas un fichier de configuration qu'il suffirait de remplir pour que les programmes sachent à chaque fois trouver le bon emplacement. \\ 
 
-Le chemin des fichiers src d'OpenFisca et src\_liam de Liam2 doivent être ajoutés au PythonPath. Ceci se fait par exemple très facilement pour les utilisateurs d'Aptana.
+\subsection{Utilisation d'Aptana}
+
+Le fichier précédemement installé doivent être importer comme projet. 
+Clic droit sur la bonne zone puis import ouvre une fenêtre à partir de laquelle l'importation peut s'effectuer. 
+Avec Git, on peut choisir import from Git. 
+Quelle que soit le mode retenu, il faut choisir la formule PyDev puis PyDev Project. \\
+
+Le chemin des fichiers src d'OpenFisca et src\_ liam de Til-Liam doivent être ajoutés à la liste des dossiers dans lesquels Python cherche pour importer des fichier. 
+Pour faire cela, clic-droit sur le dossier Til dans Aptana, puis Properties, Pydev-PYTHONPATH puis ajouter les dossiers dans l'onglet External  Libraries.
+
+
+\subsection{Associer les extension .yml à notepad++}
+
+Tout est dit, pour plus de lisibilité, on recommande l'utilisation de notepad++ comme cela a été pensé par l'équipe de Liam2. 
+
 
 \section{Ma première simulation}
 
-De là, les choses sont plutôt simples. Il faut avoir fait tourné run\_all dans le fichier data$\backslash$Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
-Puis il faut ouvrir le fichier  pgm$\backslash$run\_til.py la première fois, il faut décommenter la ligne main.main() en début de programme, c'est elle qui fait la conversion des fichiers Rdata que vous avec créés juste avant en un fichier simple2009.h5 à partir duquel le modèle tourne.
+De là, les choses sont plutôt simples. Il faut avoir fait tourné run\_all.R dans le fichier Til\textbackslash data\textbackslash Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
+Pour ce premier exemple, il faut mettre non à toutes les options autres que option\_ run au début de ce programme.
+En cas d'erreur, vérifier les chemins et l'installation des librairies R préalables (package plyr).
+Il faut ensuite ouvrir le fichier  Til\textbackslash pgm\textbackslash run\_ til.py, sous Aptana.
+En faisant attention, au chemin et au fait que la ligne "file2h5(fichier)" soit décommentée, faire tourner (raccourci ctrl+F11).
+Félicitations, après toutes ces étapes vous venez de faire tourner le modèle \txl \ pour la première fois. 
+ 
