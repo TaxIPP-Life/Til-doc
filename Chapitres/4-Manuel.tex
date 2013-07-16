@@ -99,7 +99,20 @@ Une option \textbf{retro} permet simplement de remonter le temps plutôt que de s
 Enfin, toujours parce qu'on ne veut pas tout changer à chaque fois que l'on change le pas, on introduit un paramètre \textbf{init\_ period} qui prend la place de \textit{start\_ period}.
 \textit{start\_ period} est la valeur de la première période simulée tandis que \textbf{init\_ period} veut être la période des données entrées, celles sur lequelles on fait tourner init\_ process. 
 On doit entrer obligatoirement l'une ou l'autre des deux valeurs mais pas les deux.
-Pour la fonction simulation, c'est \textbf{init\_ period} qui est donné comme paramètre, si dans le fichier YAML, on donne \textbf{start\_ period}, on traduit simplement \textbf{init\_ period} =  \textbf{start\_ period} - pas temporel 
+Pour la fonction simulation, c'est \textbf{init\_ period} qui est donné comme paramètre, si dans le fichier YAML, on donne \textbf{start\_ period}, on traduit simplement \textbf{init\_ period} =  \textbf{start\_ period} - pas temporel   \\
+
+L'utilisation des fonctions \textbf{duration} et \textbf{lag} doivent être traitée avec soin. 
+Pour duration, on essaiera tout simplement de s'en passer. 
+Il n'est pas évident de programmer des durée avec des pas temporel qui peuvent bouger. 
+Ce n'est pas du tout impossible mais pour l'instant, on préfère sauvegarder période par période la durée plutôt que d'utiliser cette fonction. 
+C'est d'ailleurs ce que conseillent l'équipe de Liam2. 
+
+Pour lag, on peut s'en servir mais là aussi, c'est risqué. 
+On notera qu'aller chercher la période précédente ne dit rien sur la valeur passée. 
+Ensuite, la nouvelle façon de coder les choses fait qu'on n'accede pas aux périodes avant start\_ period. 
+Il est vrai que cela pourrait être rapidement corrigé en ajoutant base\_ period et suivante à la liste donnée à simul\_ period et en choisissant judicieusement le period\_ idx, mais ce n'est pas fait pour l'instant. 
+
+
 
 
 \subsection{Gestion des périodes}
