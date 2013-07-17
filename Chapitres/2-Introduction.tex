@@ -5,14 +5,14 @@
 L'objectif du modèle \txl \ est l'étude du cycle de vie dans toutes ses dimensions. 
 Il se distinguent en cela de la plupart des autres modèles de microsimulation dynamique qui se concentre sur un domaine particulier : l'éducation, les retraites, la dépendance ou l'activité féminine par exemple. \\
 
-La généralité désirée du modèle pousse à n'avoir aucune impasse sur les différentes étapes marquantes de la vie économique de la population. 
+La généralité désirée du modèle pousse à ne faire aucune impasse sur les différentes étapes marquantes de la vie économique de la population. 
 \txl \ est ainsi par exemple, à ma connaissance, le seul modèle de microsimulation intégrant les héritages et droit de succession.
 
 Prendre en compte le plus possible de dimension permet aussi en théorie d'étudier des phénomènes plus complexe, d'un second ordre. 
-On peut penser à l'influence de l'assurance chômage sur les décisions d'éducation, ou celle de l'allongement de la vie, sur l'immobilier, les loyers et les allocations logements mais aussi à bon nombre d'autres problématiques. \\
+On peut penser à l'influence de l'assurance chômage sur les choix d'éducation, ou celle de l'allongement de la vie sur l'immobilier, les loyers et les allocations logements mais aussi à bien d'autres problématiques. \\
 
-Cet objectif généraliste permet à chaque partie de profiter de l'expertise du reste du modèle. 
-La structure du modèle doit permettre à ce qu'un travail sur les choix de départ en retraite profite aux études qui étudie la consommation des senior par exemple. 
+Cet objectif généraliste permet à chaque partie de profiter des avancées sur le reste du modèle. 
+La structure du modèle doit permettre à ce qu'un travail sur les choix de départ en retraite profite aux études qui étudient la consommation des personnes âgées par exemple. 
 L'investissement qui peut être fait sur les parties sensibles et clés du modèle comme le marché du travail ou la démographie est utile pour toutes les études et le spécialiste de la santé n'aura pas besoin de se spécialiser dans le marché du travail plus qu'il ne le souhaite. 
 
 \subsection{Mesurer les niveaux de vie}
@@ -29,6 +29,9 @@ A COMPLETER avec document JEM + rapport Alexis
 \subsection{Mesurer la redistribution}
 
 A COMPLETER avec document JEM + rapport Alexis 
+
+\subsection{Évaluation \textit{ex ante} de réformes}
+
 \newpage
 
 \section{Historique}
@@ -40,7 +43,8 @@ Le premier est développé pour la dynamique de la simulation, le second est dével
 Il faut remercier ces deux projets, et le bon goût qu'ils ont eu d'être OpenSource. 
 Il faut aussi remercier les personnes qui étaient responsable de ces modèles, en 2012-13, à la naissance de \txl , respectivement Gaëtan de Menten et Mahdi Ben Jelloul.
 De nombreuses interactions avec eux ont permis de profiter de leur expérience et de reprendre ces travaux pour la construction de \txl. 
-Ces échanges ont été très important pour \txl \ et on espère que les gains à l'échange n'aient pas été unilatéraux. Liam2 et OpenFisca ont possiblement profité du regard extérieur sur leur travaux. 
+Ces échanges ont été très important pour \txl \ et on espère que les gains à l'échange n'ont pas été unilatéraux.
+Liam2 et OpenFisca ont possiblement profité du regard extérieur sur leur travaux. 
 Il serait évidemment intéressant que les trois modèles continuent de se développer, et le plus collectivement possible. \\
 
 Le modèle \txl \ a aussi eu la chance d'avoir comme prédécesseur le modèle Destinie de l'Insee.
@@ -48,13 +52,12 @@ Les documents publiés sur ce modèle ainsi que les échanges avec son équipe de dé
 En particulier, Didier Blanchet, parce qu'il avait commencé une version en R de Destinie, a permis à \txl \ de s'appuyer dès le début sur un code lisible et simple avec les grandes lignes d'un modèle de microsimulation dynamique.
 
 \subsection{Frise chronologique}
-
+\label{historique}
 Le projet \txl \ a débuté en septembre 2012 à l'initiative d'Alexis Eidelman qui a passé un an pour asseoir les bases du projet.
 Avec Béatrice Boutchenik, une première étape a été l'appariement de l'enquête patrimoine avec les DADS\footnote{On pourra lire son mémoire de master pour plus d'informations}.\\
 
-Ensuite, l'intérêt s'est d'abord porté sur le moteur du modèle (voir partie \ref{technique}). 
-Un souci important était pour moi (Alexis Eidelman) d'avoir un temps de calcul réduit. 
-Convaincu que cela joue sur la qualité des statistiques créés ensuite. 
+Ensuite, l'intérêt s'est d'abord porté sur le moteur du modèle (voir partie \ref{technique}) en recherchant si possible un temps de calcul réduit. 
+L'expérience montre en effet que le temps de calcul d'une simulation a une influence sur les améliorations du modèle et sur la qualité des statistiques produites. 
 L'essentiel de la structure du modèle dont l'interface entre Liam2 et \of , ainsi que bon nombre d'amélioration dans ces deux modèle ont permis de donner une première version de \txl. 
 Cette version, avancée techniquement, n'en reste pas moins trop simple au niveau des équations de simulation et des résultats finaux. 
 

@@ -121,8 +121,8 @@ Clic droit sur la bonne zone puis import ouvre une fenêtre à partir de laquelle 
 Avec Git, on peut choisir import from Git. 
 Quelle que soit le mode retenu, il faut choisir la formule PyDev puis PyDev Project. \\
 
-Le chemin des fichiers src d'OpenFisca et src\_ liam de Til-Liam doivent être ajoutés à la liste des dossiers dans lesquels Python cherche pour importer des fichier. 
-Pour faire cela, clic-droit sur le dossier Til dans Aptana, puis Properties, Pydev-PYTHONPATH puis ajouter les dossiers dans l'onglet External  Libraries.
+%Le chemin des fichiers src d'OpenFisca et src\_ liam de Til-Liam doivent être ajoutés à la liste des dossiers dans lesquels Python cherche pour importer des fichier. 
+%Pour faire cela, clic-droit sur le dossier Til dans Aptana, puis Properties, Pydev-PYTHONPATH puis ajouter les dossiers dans l'onglet External  Libraries.
 
 
 \subsection{Associer les extension .yml à notepad++}
@@ -132,10 +132,19 @@ Tout est dit, pour plus de lisibilité, on recommande l'utilisation de notepad++ 
 
 \section{Ma première simulation}
 
-De là, les choses sont plutôt simples. Il faut avoir fait tourné run\_all.R dans le fichier Til\textbackslash data\textbackslash Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
-Pour ce premier exemple, il faut mettre non à toutes les options autres que option\_ run au début de ce programme.
+Pour lancer une simulation, il faut ouvrir run\_ til.py (dans Aptana) qui se trouve dans le dossier Til\textbackslash pgm. 
+Ensuite, il faut lancer (Ctrl+F11) le programme. 
+Mais avant cela, il faut mettre que dans le fichier console.yml, le champ 'input' contient bien 'test.h5'. 
+Attention, ce ne doit pas être le cas en général.
+Il faut aussi que la ligne "file2h5(fichier)" soit commentée dans run\_ til.py. \\
+
+Si vous n'avez pas test.h5 ou surtout, si vous voulez désormais importer vos données, vous pouvez décommenter la ligne "file2h5(fichier)".
+Mais, là encore, il faut un peu modifier un fichier yml, import\_ patrimoineR.yml en 
+l'occurrence. 
+Il faut changer le output en test.h5 et veiller à ce que tous les fichiers .Rdata nommé dans le fichier face référence à subset.Rdata. \\
+
+Encore plus loin, si vous voulez faire tourner les données depuis leur création à partir de l'enquête patrimoine, il faut faire tourné run\_all.R dans le fichier Til\textbackslash data\textbackslash Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
+Pour ce premier exemple, il faut mettre non à toutes les options autres que option\_ run au début de ce programme. 
+Au moment où j'écris ces lignes, il reste quelques soucis puisque la table retro est associé au fichier alors que cela ne devrait pas.
+Il y a encore un peu de travail sur ces données initiales de toute façon.
 En cas d'erreur, vérifier les chemins et l'installation des librairies R préalables (package plyr).
-Il faut ensuite ouvrir le fichier  Til\textbackslash pgm\textbackslash run\_ til.py, sous Aptana.
-En faisant attention, au chemin et au fait que la ligne "file2h5(fichier)" soit décommentée, faire tourner (raccourci ctrl+F11).
-Félicitations, après toutes ces étapes vous venez de faire tourner le modèle \txl \ pour la première fois. 
- 
