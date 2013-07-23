@@ -3,24 +3,38 @@ On essaie de faire en sorte qu'aucune connaissance préalable ne soit requise.
 
 On définit deux grandes étapes.
 La première est l'installation des programmes Python et R qui permettront de faire tourner les programmes de \txl.
-On considère qu'il s'agit de l'environnement de l'ordinateur puisqu'il ne s'agit pas de programmes spécifiques à \txl \ de. On donnera ensuite les indications pour installer les éléments de \txl \ proprement dit.\\
+On considère qu'il s'agit de l'environnement de l'ordinateur puisqu'il ne s'agit pas de programmes spécifiques à \txl . 
+On donnera ensuite les indications pour installer les éléments de \txl \ proprement dit.\\
 
 Avant de commencer, précisons que même si on essaie d'être le plus complet possible, il ne faut pas hésiter à utiliser internet en cas de doute (et à mettre à jour ce document).
 
 \section{Environnement de l'ordinateur}
 
-\subsection{Installer Python}
+\subsection{\label{InstallPython}Installer Python}
 
 You have to install Python 2.7.x\footnote{ If you wonder why we use Python 2 and not Python 3, you can find some points here: \url{http://wiki.python.org/moin/Python2orPython3}. For \txl, options were limited by the previous choices of \of \ and Liam2.} in the 64 bits versions\footnote{If you're not using a 64-bits version, you may encounter some issues in particular for the \of \ part.}. Installation files can be found on : \url{http://www.python.org/download/releases/}. \\
 
-Add "C\NoAutoSpaceBeforeFDP:\textbackslash Python27;C\NoAutoSpaceBeforeFDP:\textbackslash Python27\textbackslash Scripts;C\NoAutoSpaceBeforeFDP:\textbackslash Python27\textbackslash Lib\textbackslash site-packages"\footnote{C:\textbackslash Python27 can be replace by your python directory if you haven't chosen the default installation} in the variables environment of your system path\footnote{ \label{path} For Windows users, find "computeur", the root of your system, select Properties after a right-click on computer.
-Then click Advanced system settings > Advanced tab > Environment Variables. Modify Path separating folders by semicolons with no blank.}. \\
+
+Add "\emph{C\NoAutoSpaceBeforeFDP:\textbackslash Python27;C\NoAutoSpaceBeforeFDP:\textbackslash Python27\textbackslash Scripts;C\NoAutoSpaceBeforeFDP:\textbackslash Python27\textbackslash Lib\textbackslash site-packages}"
+\footnote{C:\textbackslash Python27 can be replace by your python directory if you haven't chosen the default installation} 
+in the existing Path variable inside the environment variables of your system.
+\footnote{\label{path} For Windows users, find "computeur", the root of your system, select Properties after a right-click on computer.
+Then click Advanced system settings > Advanced tab > Environment Variables. Modify the existing variable \emph{Path} separating folders by semicolons with no blank.
+Please note that programs usually load the environment variables when they open so you may have to restart them to see your modification impact}. \\
+
+
+%Add "C\NoAutoSpaceBeforeFDP:\textbackslash Python27;C\NoAutoSpaceBeforeFDP:\textbackslash Python27\textbackslash Scripts;C\NoAutoSpaceBeforeFDP:\textbackslash Python27\textbackslash Lib\textbackslash site-packages"
+%\footnote{C:\textbackslash Python27 can be replace by your python directory if you haven't chosen the default installation} 
+%is in the environment variable path of your system  
+%\footnote{ \label{path} For Windows users, find "computeur", the root of your system, select Properties after a right-click on computer.
+%Then click Advanced system settings > Advanced tab > Environment Variables. Modify Path separating folders by semicolons with no blank.}.//
+
 
 Then you need to install all our other dependencies (third-party packages for Python).
 If you are on Windows, the easiest way to install them is to use the (unoffical) binary packages from Christoph Gohlke\footnote{Actually, if you're in the IPP there is a even simpler way to find packages, on the shared repositiory (Public/Installation).} at: \url{http://www.lfd.uci.edu/~gohlke/pythonlibs/}.
 If you can't find a package on Gohlke's website, don't panic, there is a solution.
 Installation can be made after having installed packages \textit{setup\_ tool} and \textit{pip} that can be found on the website.
-Then you can open a command prompt (cmd in windows' search) and just write : pip install package\_ name. \\
+Then you can open a command prompt (\emph{cmd} in windows' search) and just write : pip install package\_ name. \\
 
 The package linked to the simulation (and Liam2) are :
 \begin{itemize}
@@ -58,7 +72,7 @@ You're invited to find on internet corresponding websites.
 \item RunSnakeRun : to be an expert in calculus time used by \txl .
 \item Sphinx : to build an write a documentation. For \txl , documentation is done in \LaTeX , but \of \ and Liam2 use it.
 \end{itemize}
-And just in case, you should know Cython , used by Liam2, than can build a C extension.
+And just in case, you should know Cython, used by Liam2, than can build a C extension.
 
 \subsection{Installer R}
 L'installation de R, ne devrait pas poser de problème.
@@ -68,7 +82,7 @@ Bien sûr, on ne saurait trop recommander l'usage de RStudio, une interface visue
 
 \subsection{Interface Python et R}
 
-Pour que Python et R puissent se parler, il faut modifier le path system comme l'explique la documentation du package rpy2. Trouver comment modifier les variables d'environnement associé à la session. Ajouter deux nouvelles variables (voir note de bas de page \ref{path}):
+Pour que Python et R puissent se parler, il faut modifier le path system comme l'explique la documentation du package rpy2. Il faut procéder de la même manière qu'en 7.1.1, mais cette fois créer deux nouvelles variables (voir note de bas de page \ref{path}):
 \begin{itemize}
 \item R\_HOME : Path to your R folder (For example C:\textbackslash Program Files\textbackslash R\textbackslash R-2.15.2).
 \item R\_USER : Your name. I must confess I didn't find what it is for.
@@ -97,14 +111,15 @@ A terme, on pourra changer la place des dossiers mais pour l'instant, il faudrai
 \subsection{Où trouver les sources de \til}
 
 Les fichiers de \txl \ se trouve sur GitHub à l'adresse suivante: \url{https://github.com/TaxIPP-Life}.
-Les dossiers Til et Til-Liam sont nécessaire, le dossier Til-Doc, qui comme son nom l'indique contient la documentation, ne peut pas faire de mal.
-D'ici vous pouver charger un zip ou bien (recommandé) charger ces éléments via GitHub.
-Disons en passant, que si vous souhaitez contribuer, d'une manière ou d'une autre au développement de \txl , vous pouvez forker le dossier et user des pull request et des issues.
+Les dossiers Til et Til-Liam sont nécessaires, le dossier Til-Doc, qui comme son nom l'indique contient la documentation, ne peut pas faire de mal.
+D'ici vous pouvez charger un zip ou bien (recommandé) charger ces éléments via GitHub.
+Disons en passant, que si vous souhaitez contribuer, d'une manière ou d'une autre au développement de \txl , vous pouvez \emph{forker} le dossier et user des \emph{pull request} et des \emph{issues}.
 Si vous ne voulez pas utiliser GitHub, que ce ne soit pas un obstacle à une éventuelle contribution.
 Vous pouvez envoyer vos remarques et fichiers à alexis.eidelman@ipp.eu .\\
 
-En fait, les dossier du repository "til" n'est pas suffisant.
+En fait, les dossier du repository "til" ne sont pas suffisants.
 Il faudra aussi, installer OpenFisca que l'on peut trouver aussi sur GitHub : \url{https://github.com/openfisca/openfisca}.
+Attention, il faut passer à la branche 'dev' et quitter la branche 'master' de \of \ qui n'est pas à jour. 
 
 \paragraph{Pourquoi pas un seul dossier ?}
 OpenFisca et Liam2 sont des projets dissociés de \txl .
@@ -120,13 +135,8 @@ Clic droit sur la bonne zone puis import ouvre une fenêtre à partir de laquelle 
 Avec Git, on peut choisir "Projects from Git".
 Quel que soit le mode retenu, il faut choisir la formule PyDev puis PyDev Project.
 Avant de faire cela, il faut veiller à ce qu'Aptana puisse lancer Python.
-Dans Windows/Preferences/PyDev/Interpreter Python, il faut ajouter le python.exe que vous venez d'installer.
-Ceci peut se faire en appuyant sur Auto Config.  \\
-
-
-Le chemin des fichiers d'OpenFisca et src\_ liam de Til-Liam doivent être ajoutés à la liste des dossiers dans lesquels Python cherche pour importer des fichier.
-Pour faire cela, clic-droit sur le dossier Til dans Aptana, puis Properties, Pydev-PYTHONPATH puis ajouter les dossiers dans l'onglet External Libraries.
-
+Dans \emph{Window/Preferences/PyDev/Interpreter Python}, il faut ajouter le python.exe que vous venez d'installer.
+Ceci peut se faire en appuyant sur Auto Config\footnote{Si cela ne marche pas, il est possible que cela soit dû à une mauvaise redéfinition de la variable d'environnement Path au 7.1.1}.  \\
 
 \subsection{Associer les extension .yml à notepad++}
 

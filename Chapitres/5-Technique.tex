@@ -72,8 +72,9 @@ Il n'y a pas de sens à faire cela. \\
 
 \paragraph{Principe}
 
-Il y n'y a guère que deux options possible. Ou bien lors du matching, si on associe les 5 000 personnes aux 10 000, séparer les 10 000 en deux  groupes de 5 000 (représenter par deux individus dans la base) et marier un des groupes laissant l'autre célibataire. 
-L'autre option est de dupliquer dès le départ les individus pour avoir une pondération de 1 et autant de lignes que l'on a d'individu dans la population étudiée.
+Il y n'y a guère que deux options possibles. 
+La première consiste, lors du matching, si on associe les 5 000 personnes aux 10 000, séparer les 10 000 en deux  groupes de 5 000 (représenter par deux individus dans la base) et marier un des groupes laissant l'autre célibataire. 
+La seconde est de dupliquer dès le départ les individus pour avoir une pondération de 1 et autant de lignes que l'on a d'individu dans la population étudiée.
 En fait, on n'a besoin que d'une pondération uniforme qui doit être le plus grand commun dénominateur des pondérations en théorie. 
 C'est cette dernière option que l'on retient dans \til. \\
 
@@ -82,13 +83,13 @@ Cependant, elle complique beaucoup le code, en particulier pour des étapes d'opt
 De plus, comme la complexité ne doit pas être en élément dirimant, le gain à procéder de la sorte ne serait pas forcément si grand.
 Il faut savoir qu'initialement, les choses étaient codées comme cela dans Liam2 et que cette option a été abandonnée.
 La raison est que, selon l'équipe de Liam2, après quelques périodes, les pondérations devenaient 1 pour tout le monde. 
-Il faut en effet garder à l'esprit que si un individu est "splité" alors il faut aussi spliter toutes les personnes qui lui sont liés : ses enfants par exemple. 
+Il faut en effet garder à l'esprit que si un individu est "splité" alors il faut aussi spliter toutes les personnes qui lui sont liées : ses enfants par exemple. 
 Après les enfants, et les parents, les conjoints de ceux-ci, puis les parents et enfants des conjoints, etc.
-Une sorte de théorème des 6 poignées de main (pas exactement lui puisqu'on ne regarde que le lien familiaux ici) laisse sous-entendre qu'au bout de quelque simulation de mariage, la population a la taille de la pondération minimale. 
+Une sorte de théorème des 6 poignées de main (pas exactement lui puisqu'on ne regarde que le lien familiaux ici) laisse sous-entendre qu'au bout de quelques simulations de mariage, la population a la taille de la pondération minimale. 
 
 Il est plus simple pour l'instant de ne pas trop s'éloigner de Liam2. 
-De plus, et c'est un point important, la duplication de l'échantillon a l'avantage de permettre au même individu de la base initiale d'avoir plusieurs trajectoire professionnelle par exemple.
-On obtient ainsi de la variabilité tout à fait appréciable au niveau de chaque individu dans le modèle. 
+De plus, et c'est un point important, la duplication de l'échantillon a l'avantage de permettre au même individu de la base initiale d'avoir plusieurs trajectoires professionnelles par exemple.
+On obtient ainsi de la variabilité tout-à-fait appréciable au niveau de chaque individu dans le modèle. 
 
 \paragraph{Réalisation}
 
@@ -99,8 +100,8 @@ Finalement, elle se fait en R, ce qui dans ce cas précis est plus simple et plus
 La duplication doit en effet obligatoirement précéder l'étape de fermeture de l'échantillon\footnote{(Mettre une référence en latex vers la section ici). On trouvera aussi dans cette section des chiffres montrant que cela est indispensable} pour que les liens parents enfants respectent les pondérations.
 Comme on veut toutefois pouvoir travailler sur un petit échantillon pour avoir des résultats rapidement, l'étape de duplication est une étape relativement explicite du ficher run\_ all.R. \\
 
-Dupliquer les ménages ou les individus en fonction du poids n'est pas en soit compliqué.
-En revanche, il faut être minutieux sur le liens entre les différentes lignes des tables. 
+Dupliquer les ménages ou les individus en fonction du poids n'est pas en soi compliqué.
+En revanche, il faut être minutieux sur le lien entre les différentes lignes des tables. 
 
 TODO: Documenter le code
 
@@ -110,7 +111,7 @@ TODO: Documenter le code
 Les programmes sont donc en place.
 En revanche, on a passé dans le paragraphe précédent sur le fait que pour l'instant, la pondération uniforme utilisée n'était pas ni 1, ni le PGCD, ni même la pondération minimale mais 200. 
 Pourquoi cela ? 
-Il faut savoir que dans l'enquête Patrimoine 2010, qui contient un sur-échantillonnage des hauts patrimoines et la plus petite pondération est de 6.
+Il faut savoir que dans l'enquête Patrimoine 2010, qui contient un sur-échantillonnage des hauts patrimoines, la plus petite pondération est de 6.
 Même en prenant 6 comme approximation grossière du PGCD, cela nous mène en théorie à une base de plus de 10 millions de lignes dans la base pour représenter la population française.
 C'est beaucoup.
 Le nombre de 200 est donc un arbitrage entre résoudre le problème des pondérations et avoir un échantillon de taille acceptable pour que la simulation tourne en un temps raisonnable.
@@ -135,9 +136,9 @@ Mais comme cette étape ne concerne que l'initialisation, il y a certainement pos
 
 On peut aussi citer l'idée de la technique employée par le modèle DESTINIE de l'Insee qui permet potentiellement d'utiliser un petit échantillon avec pondération uniforme mais conservant la représentativité de l'ensemble de la population.
 Après l'étape de duplication, un nombre de ménage est sélectionnés. 
-Si on effectue cette étape après la fermeture de l'échantillon (ce qui est souhaitable pour optimiser les chances d'avoir des liens parents-enfants représentatif), il faut aller chercher les ménages rattachés. 
+Si on effectue cette étape après la fermeture de l'échantillon (ce qui est souhaitable pour optimiser les chances d'avoir des liens parents-enfants représentatifs), il faut aller chercher les ménages rattachés. 
 Sinon, il faut effectuer ensuite l'étape de fermeture.
-On fait ainsi une sorte de bootstrap tout en respectant travaillant avec une pondération uniforme, ce qui peut être intéressant.
+On fait ainsi une sorte de bootstrap tout en travaillant avec une pondération uniforme, ce qui peut être intéressant.
 
 \newpage
 
@@ -146,7 +147,7 @@ On fait ainsi une sorte de bootstrap tout en respectant travaillant avec une pon
 
 \subsection{Difficulté}
 
-Par rapport aux autres étapes, la formation des unions à ceci de particulier qu'il s'agit d'un marché et non pas d'une imputation individuelle. 
+Par rapport aux autres étapes, la formation des unions a ceci de particulier qu'il s'agit d'un marché et non pas d'une imputation individuelle. 
 Le conjoint imputé à Alain ne dépend pas que d'Alain mais aussi des personnes célibataires en même temps qu'Alain.\\
 
 Nous nous intéressons ici qu'à l'étape de formation des unions et pas de la sélection des candidats potentiels au mariage. \\
@@ -172,7 +173,7 @@ Une méthode brutale est d'étudier toutes les combinaisons possibles.
 Il est bien sûr impensable de l'appliquer puisque cela demande un temps de calcul en $n!$ si $n$ est le nombre de mariage. 
 Heureusement, il existe un méthode plus simple, dite méthode hongroise (ou de Munkres-Kuhn-Tucker).
 Elle est tout de même assez coûteuse en temps de calcul, et inapplicable dans notre cadre quand la taille de la base augmente. 
-Elle a aussi le désavantage d'être avant tout pensé pour des matrices carrées, avec autant de candidats des deux côtés du mariage. 
+Elle a aussi le désavantage d'être avant tout pensée pour des matrices carrées, avec autant de candidats des deux côtés du mariage. 
 Pour nous, on aimerait que ce soit l'algorithme d'optimisation qui nous dise les candidats à l'union qui vont rester sur le carreau. \\
 
 La méthode appliquée ici n'est pas du tout raffinée. 
