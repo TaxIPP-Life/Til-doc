@@ -2,16 +2,16 @@ Le modèle \txl \ s'appuie sur le modèle de simulation dynamique Liam2.
 De ce fait, le manuel de l'utilisateur est essentiellement le manuel d'utilisation de Liam2 que l'on peut trouver sur \url{http://liam2.plan.be}. \\
 
 Ce n'est toutefois pas complètement suffisant. 
-En effet, les programmes de liam2 utilisé par \txl \ sont modifiés. 
-Contrairement à OpenFisca, pour lequel les modifications sont pour l'instant, directement intégrer au modèle, les modifications effectuées par \txl , ne sont pas toujours reprises par Liam2 si bien qu'il y a un décalage entre Liam2 et ses versions successives et ce qu'on peut appeler Til-Liam qui est la version de liam2 adaptée à \txl.\\
+En effet, les programmes de Liam2 utilisé par \txl \ sont modifiés. 
+Contrairement à OpenFisca, pour lequel les modifications sont, pour l'instant, directement intégrées au modèle, les modifications effectuées par \txl ne sont pas toujours reprises par Liam2 si bien qu'il y a un décalage entre Liam2 et ses versions successives et ce qu'on peut appeler Til-Liam qui est la version de Liam2 adaptée à \txl.\\
 
 On dresse ici la liste des modifications par rapport à la version "officielle" de Liam2.
 Même si le titre du chapitre laisse penser qu'on ne traitera que de l'utilisation des fichiers YAML, il y aura aussi des points de programmation un peu plus techniques. 
-En effet, il est important pour le codeur de savoir où se situe les différences dans le codes entre Liam2 et Til-Liam. 
+En effet, il est important pour le codeur de savoir où se situe les différences dans le code entre Liam2 et Til-Liam. 
 Cela permet de voir ce à quoi il faut faire attention lors des mises à jour de Liam2. 
-Cela permet au codeur de \txl \ d'identifier ces points qui sont parfois moins généraux et codé un peu différemment de Liam2. 
+Cela permet au codeur de \txl \ d'identifier ces points qui sont parfois moins généraux et codés un peu différemment de Liam2. 
 On peut aussi se dire, entre nous, que la base de Liam2 est pour l'instant a priori de meilleure qualité que les additions qui ont été faites.
-En effet, ces patchs sont probablement parfois un peu ad-hoc et peut-être pas complètement optimisés.\\ 
+En effet, ces patchs sont probablement parfois un peu \textit{ad hoc} et peut-être pas complètement optimisés.\\ 
 
 \section{Le manuel de Liam2}
 
@@ -20,10 +20,10 @@ On le redit, pour utiliser \txl, il faut lire le manuel de Liam2: \url{http://li
 \section{Le manuel de Til-Liam}
 
 Dans un premier temps, on présente les modifications par rapport au manuel de Liam2 qui peuvent modifier l'écriture des fichiers YAML.
-Il s'agit en général d'options rajoutées ou bien dans la partie de définition de entities ou bien dans la définition de la simulation. 
+Il s'agit en général d'options rajoutées soit dans la partie de définition d'entities soit dans la définition de la simulation. 
 
-Un bon nombre des modifications concernent, comme vous allez le voir, le travail sur les périodes. 
-Là où Liam2 est pensé pour travailler avec des périodes (des années) \txl \ souhaite pouvoir choisir des pas de simulations.
+Une partie importante des modifications concerne, comme vous allez le voir, le travail sur les périodes. 
+Là où Liam2 est pensé pour travailler avec des périodes (des années) \txl \ souhaite pouvoir choisir des pas de simulations, possiblement infra-annuels.
 On s'attardera spécifiquement sur les périodes pour expliquer les choix faits par Til-Liam. 
 
 Enfin, une petite partie décrira les modifications plus esthétiques qu'autre chose. 
@@ -31,7 +31,7 @@ Enfin, une petite partie décrira les modifications plus esthétiques qu'autre cho
 
 \subsection{Options de la console YAML}
 
-On sépare les modifications entre celle qui modifient l'écriture des entities (y compris leur process) et celle qui modifie la partie simulation.
+On sépare les modifications entre celles qui modifient l'écriture des entities (y compris leur process) et celles qui modifient la partie simulation.
 
 \subsubsection{Entities}
 
@@ -40,25 +40,26 @@ Dans la définition des variables, on a un champ optionnel \textbf{default} qui p
 Par exemple quand initialdata==False ou dans la création d'une nouvelle ligne (fonction new). 
 Ceci devrait être repris à terme par Liam2.\\ 
 
-On ajoute deux nouvelles fonctions. Associées au fait que l'on a modifié la façon de travailler avec les périodes (voir plus bas).
+On ajoute deux nouvelles fonctions. 
+Associées au fait que l'on a modifié la façon de travailler avec les périodes (voir plus bas).
 On a donc une fonction \textbf{add\_ time\_ scale(\textit{expr})} qui ajoute à l'expression \textit{expr} qui doit être un entier je pense, le nombre de mois depuis la précédente période calculée. 
 Et une fonction \textbf{add\_ time(\textit{expr})} qui ajoute à une expression qui doit avoir le format d'une date (yyyymm), la durée écoulée depuis la précédente période.
 On comprendra peut-être mieux tout ça dans la section suivante qui traite spécifiquement des périodes.
 
-On a aussi deux fonctions \textbf{month} et \textbf{year} qui donne le mois et l'année. Ces deux fonction sont extrêment simples et $year(period)$ pourrait par exemple être remplacé par $period/100$ mais l'intérêt est que si on change quelque chose dans la facon d'écrire les périodes, on n'aura pas besoin de revoir tout les fichier YAML. \\
+On a aussi deux fonctions \textbf{month} et \textbf{year} qui donnent le mois et l'année. Ces deux fonction sont extrêmement simples et $year(period)$ pourrait par exemple être remplacé par $period/100$ mais l'intérêt est que si on change quelque chose dans la facon d'écrire les périodes, on n'aura pas besoin de revoir tout les fichier YAML. \\
 
 La fonction \textbf{align} a été un peu modifiée. 
 D'une part elle prend désormais un argument \textit{periodicity\_ given} qui indique la période correspondant à l'alignement donné si celui-ci ne s'appuie pas sur des données Excel. 
-On en a besoin parce que si on donne un nombre (ou une proportion) d'évenement ou une probabilité (voir la méthode sidewalk ci-après), celle-ci est automatiquement multipliée ou divisée si on simule l'événement à une autre fréquence. 
-Si on donne need=1 200 et year\_ given = 'year', alors si le processus est effectué sur une base mensuelle, on séléctionnera 100 évement à chaque mois. 
-Pour l'instant 'year' est la valeur par défaut, mais il serait peut-être plus sage de demander systématiquement à l'utilisateur de donner cette précision explicitement. \\
+On en a besoin parce que si on donne un nombre (ou une proportion) d'événements ou une probabilité (voir la méthode sidewalk ci-après), celle-ci est automatiquement multipliée ou divisée si on simule l'événement à une autre fréquence. 
+Si on donne $need=1200$ et $year\_ given = 'year'$, alors si le processus est effectué sur une base mensuelle, on sélectionnera 100 événements à chaque mois. 
+Pour l'instant $'year'$ est la valeur par défaut, mais il serait peut-être plus sage de demander systématiquement à l'utilisateur de donner cette précision explicitement. \\
 
 Toujours dans la fonction  \textbf{align}, on a ajouté l'option \textit{method}. 
-En effet, en plus de séléctionner les scores les plus important (dont on ne dira jamais assez que sans utiliser la fonction logit\_ score elle est difficilement acceptable), on permet désormais la séléction par la méthode sidewalk.
+En effet, en plus de sélectionner les scores les plus importants (dont on ne dira jamais assez que sans utiliser la fonction \emph{logit\_ score} elle est difficilement acceptable), on permet désormais la séléction par la méthode sidewalk.
 C'est celle retenue par Destinie. 
-Elle a l'avantage de n'exiger qu'une probabilité et de séléctionner un nombre correspondant à la somme des probabilités, sans entrer de marge d'alignement prédéfini.
+Elle a l'avantage de n'exiger qu'une probabilité et de sélectionner un nombre correspondant à la somme des probabilités, sans entrer de marge d'alignement prédéfini.
 Il faut faire attention au fait que seule une probabilité peut être donné comme score dans ce cas. 
-Une erreur est levée quand on entre un nombre d'évenement si celui-ci est supérieur à la somme des probabilités. 
+Une erreur est levée quand on entre un nombre d'événement si celui-ci est supérieur à la somme des probabilités. 
 On pourrait implémenter une solution (voir échange de mail entre Alexis Eidelman et Gaetan de Mertens). 
 Sinon, on ne peut pas savoir a priori quand ce cas va se rencontrer. \\
 
@@ -68,23 +69,23 @@ Sinon, on ne peut pas savoir a priori quand ce cas va se rencontrer. \\
 Comme \txl \ a besoin de faire tourner la législation, il est normal de pouvoir définir un processus \textbf{Legislation}. 
 Pour cela, on crée une nouvelle classe de processus nommé ExtProcess.
 Ce processus, n'est pas associé à une entity mais bien à toute.
-Ce processus Legislation prend deux arguments, un argument \textit{annee} qui est l'année de la législation que l'on veut faire tourner (et qui pourrait être 'period' pour indiquer que l'on veut la législation de l'année en cours), l'autre qui est l'argument \textit{ex\_ post} n'est plus utilisable désormais.
-Il permettait au départ de calculer la législation ou bien à chaque période, ou bien en fin de simulation. 
-On verra plus bas que l'ajout d'un champ final similaire à init permet de faire ce choix sans argument particulier. \\
+Ce processus Legislation prend deux arguments, un argument \textit{annee} qui est l'année de la législation que l'on veut faire tourner (et qui pourrait être \emph{'period'} pour indiquer que l'on veut la législation de l'année en cours), l'autre qui est l'argument \textit{ex\_ post} n'est plus utilisable désormais.
+Il permettait au départ de calculer la législation soit à chaque période, soit en fin de simulation. 
+On verra plus bas que l'ajout d'un champ final similaire à \emph{init} permet de faire ce choix sans argument particulier. \\
 
 \textbf{Final} apparait comme possibilité dans le champs simulation.
 Il s'agit comme init de définir des processus que l'on ne fait tourner qu'à la dernière étape.
 La dernière période est calculé puis les final\_ process tourne. 
 Je dis ça mais, même si c'est vraiment simple à écrire, ce n'est pas encore fait. \\
 
-Comme on l'a déjà dit plus haut, des modifications importantes sont faite au niveau du pas de la simulation. 
+Comme on l'a déjà dit plus haut, des modifications importantes sont faites au niveau du pas de la simulation. 
 On pourra regarder la partie technique plus haut (référence).
 
-Dans la zone simulation, on ajoute un paramètre time\_ scale qui part défaut vaut 'year'.
+Dans la zone simulation, on ajoute un paramètre time\_ scale qui par défaut vaut 'year'.
 Ce paramètre peut prendre comme valeur les subdivisions de l'année jusqu'au mois : 'semester', 'triannual', 'quarter', 'bimensual' et 'month'.
 On comprend que l'on va simuler les périodes selon la valeur donnée. \\
 
-On profite pour dire que le processus peuvent dans Liam2 être entré avec une \textit{périodicité} (initiative de \txl \ pour cette option aussi).
+On profite pour dire que le processus peut dans Liam2 être entré avec une \textit{périodicité} (initiative de \txl \ pour cette option aussi).
 Cette périodicité peut être un entier k pour dire que l'on simulee une fois toute les k périodes. 
 Toutefois ceci est désormais non recommandé.
 On préconise maintenant d'entrer là aussi une valeur de temps, par exemple 'semester'. 
@@ -101,15 +102,15 @@ Enfin, toujours parce qu'on ne veut pas tout changer à chaque fois que l'on chan
 On doit entrer obligatoirement l'une ou l'autre des deux valeurs mais pas les deux.
 Pour la fonction simulation, c'est \textbf{init\_ period} qui est donné comme paramètre, si dans le fichier YAML, on donne \textbf{start\_ period}, on traduit simplement \textbf{init\_ period} =  \textbf{start\_ period} - pas temporel   \\
 
-L'utilisation des fonctions \textbf{duration} et \textbf{lag} doivent être traitée avec soin. 
+L'utilisation des fonctions \textbf{duration} et \textbf{lag} doit être traitée avec soin. 
 Pour duration, on essaiera tout simplement de s'en passer. 
-Il n'est pas évident de programmer des durée avec des pas temporel qui peuvent bouger. 
+Il n'est pas évident de programmer des durées avec des pas temporels qui peuvent bouger. 
 Ce n'est pas du tout impossible mais pour l'instant, on préfère sauvegarder période par période la durée plutôt que d'utiliser cette fonction. 
-C'est d'ailleurs ce que conseillent l'équipe de Liam2. 
+C'est d'ailleurs ce que conseille l'équipe de Liam2. 
 
 Pour lag, on peut s'en servir mais là aussi, c'est risqué. 
 On notera qu'aller chercher la période précédente ne dit rien sur la valeur passée. 
-Ensuite, la nouvelle façon de coder les choses fait qu'on n'accede pas aux périodes avant start\_ period. 
+Ensuite, la nouvelle façon de coder les choses fait qu'on n'accède pas aux périodes avant start\_ period. 
 Il est vrai que cela pourrait être rapidement corrigé en ajoutant base\_ period et suivante à la liste donnée à simul\_ period et en choisissant judicieusement le period\_ idx, mais ce n'est pas fait pour l'instant. 
 
 
@@ -118,14 +119,14 @@ Il est vrai que cela pourrait être rapidement corrigé en ajoutant base\_ period 
 \subsection{Gestion des périodes}
 
 Les éléments ci-dessus sont relativement explicite. 
-Pour l'alignement par exemple, on sait ou se trouve les modifications.
+Pour l'alignement par exemple, on sait où se trouve les modifications.
 
 \subsubsection{Différents pas temporel}
 
 Comme on l'imagine l'essentiel du travail est dans le programme simulation. 
 Un point important est que l'on ne donne plus le nom de la période dans le contexte.
 On préfère en effet donner la liste des périodes,\textit{ periods}, et le numéro de la période en cours, \textit{period\_ idx}. 
-Il y a donc bien sûr moyer de retrouver la period qui est \textit{periods[period\_ idx]}, mais on peut en plus et sans soucis accéder aux périodes passées alors que dans la version officielle de liam2, on prend toujours period-1 par exemple pour avoir la dernière période.
+Il y a donc bien sûr moyen de retrouver la period qui est \textit{periods[period\_ idx]}, mais on peut en plus et sans soucis accéder aux périodes passées alors que dans la version officielle de liam2, on prend toujours period-1 par exemple pour avoir la dernière période.
 
 \subsubsection{Alignement}
 

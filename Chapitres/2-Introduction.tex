@@ -3,25 +3,25 @@
 \subsection{Un modèle de microsimulation généraliste}
 
 L'objectif du modèle \txl \ est l'étude du cycle de vie dans toutes ses dimensions. 
-Il se distinguent en cela de la plupart des autres modèles de microsimulation dynamique qui se concentre sur un domaine particulier : l'éducation, les retraites, la dépendance ou l'activité féminine par exemple. \\
+Il se distingue en cela de la plupart des autres modèles de microsimulation dynamique qui se concentre sur un domaine particulier : l'éducation, les retraites, la dépendance ou l'activité féminine par exemple. \\
 
 La généralité désirée du modèle pousse à ne faire aucune impasse sur les différentes étapes marquantes de la vie économique de la population. 
-\txl \ est ainsi par exemple, à ma connaissance, le seul modèle de microsimulation intégrant les héritages et droit de succession.
+\txl \ est ainsi par exemple, à ma connaissance, le seul modèle de microsimulation intégrant les héritages et droits de succession.
 
-Prendre en compte le plus possible de dimension permet aussi en théorie d'étudier des phénomènes plus complexe, d'un second ordre. 
+Prendre en compte le plus possible de dimensions permet aussi en théorie d'étudier des phénomènes plus complexe, d'un second ordre. 
 On peut penser à l'influence de l'assurance chômage sur les choix d'éducation, ou celle de l'allongement de la vie sur l'immobilier, les loyers et les allocations logements mais aussi à bien d'autres problématiques. \\
 
 Cet objectif généraliste permet à chaque partie de profiter des avancées sur le reste du modèle. 
-La structure du modèle doit permettre à ce qu'un travail sur les choix de départ en retraite profite aux études qui étudient la consommation des personnes âgées par exemple. 
+La structure du modèle doit par exemple permettre qu'un travail sur les choix de départ en retraite profite aux études sur la consommation des personnes âgées. 
 L'investissement qui peut être fait sur les parties sensibles et clés du modèle comme le marché du travail ou la démographie est utile pour toutes les études et le spécialiste de la santé n'aura pas besoin de se spécialiser dans le marché du travail plus qu'il ne le souhaite. 
 
 \subsection{Mesurer les niveaux de vie}
 
 \txl \ part du principe que les études en coupe sont par définition limitée. 
 Tout le monde est conscient que le revenu d'une année ne peut-être qu'un proxy du niveau de vie. 
-Un revenu sur cycle de vie ne sera aussi qu'un proxy mais forcément de bien meilleur qualité. 
-On peut en effet faire trois grand reproche au revenu en coupe.
-Celui-ci fluctue d'une année sur l'autre, il n'a presque pas de sens dans les années d'inactivité, en particulier pendant les études et un revenu en coupe est toujours exposé au fait qu'il ne tient pas compte du patrimoine. \\
+Un revenu sur cycle de vie ne sera aussi qu'un proxy mais forcément de bien meilleure qualité. 
+On peut en effet faire trois principaux reproches au revenu en coupe.
+Il fluctue d'une année sur l'autre, il n'a presque pas de sens dans les années d'inactivité, en particulier pendant les études et un revenu en coupe est toujours exposé au fait qu'il ne tient pas compte du patrimoine. \\
 
 A COMPLETER avec document JEM + rapport Alexis
 
@@ -48,13 +48,13 @@ Liam2 et OpenFisca ont possiblement profité du regard extérieur sur leur travaux
 Il serait évidemment intéressant que les trois modèles continuent de se développer, et le plus collectivement possible. \\
 
 Le modèle \txl \ a aussi eu la chance d'avoir comme prédécesseur le modèle Destinie de l'Insee.
-Les documents publiés sur ce modèle ainsi que les échanges avec son équipe de développement a permis d'avoir rapidement de bonnes équations de simulation.
+Les documents publiés sur ce modèle ainsi que les échanges avec son équipe de développement ont permis d'avoir rapidement de bonnes équations de simulation.
 En particulier, Didier Blanchet, parce qu'il avait commencé une version en R de Destinie, a permis à \txl \ de s'appuyer dès le début sur un code lisible et simple avec les grandes lignes d'un modèle de microsimulation dynamique.
 
 \subsection{Frise chronologique}
 \label{historique}
-Le projet \txl \ a débuté en septembre 2012 à l'initiative d'Alexis Eidelman qui a passé un an pour asseoir les bases du projet.
-Avec Béatrice Boutchenik, une première étape a été l'appariement de l'enquête patrimoine avec les DADS\footnote{On pourra lire son mémoire de master pour plus d'informations}.\\
+Le projet \txl \ a débuté en septembre 2012 à l'initiative d'Alexis Eidelman qui a passé un an à asseoir les bases du projet.
+Avec Béatrice Boutchenik, une première étape a été l'appariement de l'enquête patrimoine avec les déclarations annuelles de données sociales (DADS)\footnote{On pourra lire son mémoire de master pour plus d'informations}.\\
 
 Ensuite, l'intérêt s'est d'abord porté sur le moteur du modèle (voir partie \ref{technique}) en recherchant si possible un temps de calcul réduit. 
 L'expérience montre en effet que le temps de calcul d'une simulation a une influence sur les améliorations du modèle et sur la qualité des statistiques produites. 
@@ -75,6 +75,8 @@ Cette version, avancée techniquement, n'en reste pas moins trop simple au niveau
 %
 %\end{tikzpicture}
 
+\begin{table}
+\centering
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline 
 ? & \multicolumn{3}{c|}{Personne sur le projet} & Réalisation & Production \\ 
@@ -94,7 +96,8 @@ Aout 2013 & X & ? & ? & ? & Documentation \\
 ? & ? & ? & ? & ? & ? \\ 
 \hline 
 \end{tabular} 
-
+%\caption{sthg}
+\end{table}
 
 
 %\section{Objectif du modèle}

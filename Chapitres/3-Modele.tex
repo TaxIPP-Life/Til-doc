@@ -7,7 +7,7 @@ En théorie, une entité contient des informations qui lui sont propres et qu'on n
 Par exemple, on fonctionne avec 3 entités principale dans \txl . 
 La première est bien sûr l'individu avec son salaire, son âge, etc. 
 Vient ensuite les logements qui ont comme caractéristique un loyer, une localisation, un nombre de pièces...
-On a aussi définit des entreprises, avec un secteur, un nombre de place vacantes, etc, même si on n'utilise pas du tout ces entreprises pour l'instant.  
+On a aussi défini des entreprises, avec un secteur, un nombre de places vacantes, etc, même si on n'utilise pas du tout ces entreprises pour l'instant.  
 
 On déroge un peu à la règle en créant une entité foyer. 
 C'est déroger à la règle puisqu'un foyer ne contient pas d'information propre. 
@@ -19,21 +19,21 @@ En plus de ce quatre entités, on définit aussi un registre qui reprend les infor
 
 \subsection{Pourquoi un registre ? }
 
-L'idée d'avoir un registre permet est une double bonne idée. 
+La création d'un registre est une double bonne idée. 
 D'une part, on peut garder les informations sur les personnes décédées et cela est particulièrement important pour les successions au second ordre \footnote{En effet, si un des enfants héritiers de quelqu'un est déjà lui-même décédé, ses enfants à lui deviennent bénéficiaires de l'héritage. Sans registre, comme l'enfant est décédé et donc absent de la base, on ne peut accéder à l'identité des petits-enfants}
 
 D'autre part, le registre permet au fur et à mesure de la simulation d'ajouter les différentes variables de revenus. 
 On pourrait en faire un principe et définir systématiquement dans le registre les informations autres que la situation à l'instant t, comme les durées dans tel ou tel état. 
 
 \subsection{Les liens}
-On a évidemment des lien du registre vers les individus et des individus vers le registre. Ce lien est un peu spécial puisqu'il est one2one finalement, doublement injectif. 
+On a évidemment des liens du registre vers les individus et des individus vers le registre. Ce lien est un peu spécial puisqu'il est one2one finalement, doublement injectif. 
 Ils se nomme reg2pers et pers2reg. \\
 
 On a ensuite des liens entre individus. 
 On n'a besoin que des parents et des conjoints ce qui ne fait que trois liens par individus. 
 Bien sûr les enfants se définissent comme : les individus dont je suis le père ou la mère. \\
 
-On a ensuite des liens des individus vers les entités auxquelles ils appartiennent. Foyer, logement, entreprise. \\
+On a ensuite des liens des individus vers les entités auxquelles ils appartiennent : foyer, logement, entreprise. \\
 
 On a aussi un lien de ces entités vers leurs propriétaires (parfois plusieurs).\\
 
@@ -45,7 +45,7 @@ On peut plus facilement gérer les déménagements et les changements de compositio
 
 \subsection{Les étapes de la simulation dynamique}
 
-Avant d'entamer cette section, il faut préciser que \til \ est encore un projet jeune en développement. Les étapes présentées ici peuvent toutes être améliorées, certaines sont tellement rudimentaires qu'elles n'ont d'autre mérite que d'exister. La description de ces étapes permet toutefois de donner une première idée des fonctionnalités et possibilités de \til . L'écriture sous forme de modules indépendants permet à tout moment d'améliorer chacune de ces étapes.
+Avant d'entamer cette section, il faut préciser que \txl est un projet jeune encore en développement. Les étapes présentées ici peuvent toutes être améliorées, certaines sont tellement rudimentaires qu'elles n'ont d'autre mérite que d'exister. La description de ces étapes permet toutefois de donner une première idée des fonctionnalités et possibilités de \txl . L'écriture sous forme de modules indépendants permet à tout moment d'améliorer chacune de ces étapes.
 
 \subsubsection{Démographie}
 
@@ -55,53 +55,96 @@ L'âge est bien sûr incrémenté à chaque période.
 On pourrait toutefois supprimer sans difficulté cette condition.}.
 Un certain nombre de ces femmes est sélectionné en s'assurant de vérifier les projections de naissance en fonction de l'âge de la mère. Le sexe de l'enfant est choisi aléatoirement.
 
-Le fait de ne pas avoir de probabilité différente pour les femmes selon leurs caractéristiques autre que leur âge est problématique. Le nombre d'enfants ainsi que le niveau d'études devrait intervenir\footnote{On ne peut pas pour autant dire que le tirage obtenu et complètement indépendant du niveau d'études et du nombre d'enfants dans la mesure où ceux-ci interviennent dans les équations de mise en couple et de divorce, pré-requis pour se voir imputer des enfants dans \til.}.
+Le fait de ne pas avoir de probabilité différente pour les femmes selon leurs caractéristiques autre que leur âge est problématique. 
+Le nombre d'enfants ainsi que le niveau d'études devrait intervenir\footnote{On ne peut pas pour autant dire que le tirage obtenu et complètement indépendant du niveau d'études et du nombre d'enfants dans la mesure où ceux-ci interviennent dans les équations de mise en couple et de divorce, pré-requis pour se voir imputer des enfants dans \til.}.
 
-\paragraph{Décès} La probabilité de décès ne dépend que de l'âge et du sexe. Le nombre de décès prédit par les projections démographiques de l'Insee est ainsi reproduit. Si une personne décédée vit seule avec des enfants, ces enfants sont attribués à l'autre parent si celui-ci est encore en vie. Si ce n'est pas le cas, ils sont affectés à un ménage spécial sans adulte avec tous les autres enfants dans ce cas.
+\paragraph{Décès} La probabilité de décès ne dépend que de l'âge et du sexe. 
+Le nombre de décès prédit par les projections démographiques de l'Insee est ainsi reproduit. 
+Si une personne décédée vit seule avec des enfants, ces enfants sont attribués à l'autre parent si celui-ci est encore en vie. 
+Si ce n'est pas le cas, ils sont affectés à un ménage spécial sans adulte avec tous les autres enfants dans ce cas.
 
-\paragraph{Union} Pour l'instant, dans le modèle, l'union entre deux personnes correspond à la fois à un emménagement et à une union légale. Sans qu'il n'y ait de contre-indication technique à le faire, il n'y a donc pas de création de concubinage. Il en existe toutefois dans la base initiale.
-Reprenant les équations utilisée par DESTINIE à partir du travail de \cite{Duee2005} on impute une probabilité de se mettre en couple. Cela est fait d'une part pour les premières unions et d'autre part pour les personnes ayant déjà été en couple séparément selon le sexe, en fonction de l'âge depuis la fin des études, du fait d'avoir un enfant, et de la durée depuis la précédente séparation le cas échéant. En utilsant une méthode d'alignement de Liam2 (voir \cite{Li2012} pour une définition et une revue des différents type d'alignements), un tiers de ces personnes est sélectionné\footnote{Un calage plus pertinent ne serait pas une mauvaise chose.}. Ensuite, un matching est effectué pour associer les individus en fonction de leur âge, de leur différence d'âge et de leur niveau de diplôme comparé. Encore une fois, ce matching, crucial pour étudier bon nombre de questions de redistribution, par exemple, l'impact de l'endogamie, mériterait d'être affiné.
-En cas d'union, les personnes rattachées aux nouveaux conjoints (enfants le plus souvent) emménagent avec eux. Idem pour les déclarations fiscales.
+\paragraph{Union} Pour l'instant, dans le modèle, l'union entre deux personnes correspond à la fois à un emménagement et à une union légale. 
+Sans qu'il n'y ait de contre-indication technique à le faire, il n'y a donc pas de création de concubinage. 
+Il en existe toutefois dans la base initiale.
+Reprenant les équations utilisées par DESTINIE à partir du travail de \cite{Duee2005} on impute une probabilité de se mettre en couple. 
+Cela est fait d'une part pour les premières unions et d'autre part pour les personnes ayant déjà été en couple séparément selon le sexe, en fonction de l'âge depuis la fin des études, du fait d'avoir un enfant, et de la durée depuis la précédente séparation le cas échéant. 
+En utilisant une méthode d'alignement de Liam2 (voir \cite{Li2012} pour une définition et une revue des différents type d'alignements), un tiers de ces personnes est sélectionné\footnote{Un calage plus pertinent ne serait pas une mauvaise chose.}. 
+Ensuite, un matching est effectué pour associer les individus en fonction de leur âge, de leur différence d'âge et de leur niveau de diplôme comparé. 
+Encore une fois, ce matching, crucial pour étudier bon nombre de questions de redistribution, par exemple, l'impact de l'endogamie, mériterait d'être affiné.
+En cas d'union, les personnes rattachées aux nouveaux conjoints (enfants le plus souvent) emménagent avec eux. 
+Idem pour les déclarations fiscales.
 
-\paragraph{Séparation} Les séparations se traduisent à la fois par un changement de logement d'un des deux conjoints et par une rupture du contrat (et donc le passage à des déclarations fiscales séparées). La probabilité de rupture dépend du nombre d'enfant du couple, de son ancienneté et de la différence d'âge entre ses membres. Ceci pourrait être régi par des probabilités mais pour l'instant c'est l'homme qui déménage (sauf lorsque le couple habitait chez ses parents à lui) et la femme qui a une nouvelle déclaration\footnote{Dans le cas de couple homosexuel, le choix est fait aléatoirement}. Les enfants et personnes rattachées ne changent de logement que s'ils sont liés à la personne qui part sans être liés à la personne qui reste, que ce soit pour le logement ou pour la déclaration fiscale.
+\paragraph{Séparation} Les séparations se traduisent à la fois par un changement de logement d'un des deux conjoints et par une rupture du contrat (et donc le passage à des déclarations fiscales séparées). 
+La probabilité de rupture dépend du nombre d'enfant du couple, de son ancienneté et de la différence d'âge entre ses membres. 
+Ceci pourrait être régi par des probabilités mais pour l'instant c'est l'homme qui déménage (sauf lorsque le couple habitait chez ses parents à lui) et la femme qui a une nouvelle déclaration\footnote{Dans le cas de couple homosexuel, le choix est fait aléatoirement}. 
+Les enfants et personnes rattachées ne changent de logement que s'ils sont liés à la personne qui part sans être liés à la personne qui reste, que ce soit pour le logement ou pour la déclaration fiscale.
 
 \subsubsection{Logement}
-Le travail sur le logement est extrêmement rudimentaire. Les déménagement ne se font que lors des unions et séparations et lorsqu'une personne de plus de 24 ans n'est ni personne de référence ni en couple (i.e. vit avec ses parents).
+Le travail sur le logement est extrêmement rudimentaire. 
+Les déménagement ne se font que lors des unions et séparations et lorsqu'une personne de plus de 24 ans n'est ni personne de référence ni en couple (i.e. vit avec ses parents).
 Le travail sur les loyers n'a pas encore été fait mais ne devrait pas poser de difficulté majeure.
 
-On pourrait à terme utiliser réellement un parc de logement dont on simulerait la variation chaque année. Lors des déménagements, les ménages choisiraient l'un des logements en fonction de la taille du ménage et du logement ainsi qu'en fonction des revenus et du loyer. On simulerait ainsi des déménagements en fonction d'un surpeuplement ou sous-peuplement ainsi qu'en cas d'évolution dans les revenus. L'idée serait de reproduire des tensions sur le marché du logement.
+On pourrait à terme utiliser réellement un parc de logement dont on simulerait la variation chaque année. 
+Lors des déménagements, les ménages choisiraient l'un des logements en fonction de la taille du ménage et du logement ainsi qu'en fonction des revenus et du loyer. 
+On simulerait ainsi des déménagements en fonction d'un surpeuplement ou sous-peuplement ainsi qu'en cas d'évolution dans les revenus. 
+L'idée serait de reproduire des tensions sur le marché du logement.
 
-On impute aussi initialement pour chaque logement un propriétaire. Du travail est encore nécessaire à cette étape mais indubitablement savoir identifier les propriétaires et les locataires sera un plus pour le modèle.
+On impute aussi initialement pour chaque logement un propriétaire. 
+Du travail est encore nécessaire à cette étape mais indubitablement savoir identifier les propriétaires et les locataires sera un plus pour le modèle.
 
 \subsubsection{Marché du travail}
 
-La question de la situation sur le marché de l'emploi est évidemment un élément crucial pour \til , qui veut étudier la redistribution.
-C'est à ce niveau que l'investissement le plus important devra être fait. Les équations de transition devraient être estimées le plus précisément possible en tenant compte d'un nombre important de paramètres afin de reproduire la réalité du marché du travail.
+La question de la situation sur le marché de l'emploi est évidemment un élément crucial pour \txl , qui veut étudier la redistribution.
+C'est à ce niveau que l'investissement le plus important devra être fait. 
+Les équations de transition devraient être estimées le plus précisément possible en tenant compte d'un nombre important de paramètres afin de reproduire la réalité du marché du travail.
 On est pour l'instant loin d'un niveau satisfaisant mais il sera, là encore, facile, au moins en termes de programmation d'améliorer cette partie du modèle.
 
-\paragraph{Éducation} L'entrée sur le marché du travail correspond à la fin des études. L'âge de fin d'études est déterminé à partir de l'âge de fin d'études des parents (au moment de la naissance de l'enfant donc). On peut penser à des modèles plus compliqués de décision (voir \ref{conclusion}). Pour l'instant, on impute pour les individus qui ne sont pas encore sortis du système scolaire un âge de fin d'études qui est la moyenne de celui de ses parents auxquels on ajoute un élément correcteur en fonction de leur date de naissance pour tenir compte de l'allongement moyen des études.
+\paragraph{Éducation} L'entrée sur le marché du travail correspond à la fin des études.
+L'âge de fin d'études est déterminé à partir de l'âge de fin d'études des parents (au moment de la naissance de l'enfant donc). 
+On peut penser à des modèles plus compliqués de décision (voir \ref{conclusion}). 
+Pour l'instant, on impute pour les individus qui ne sont pas encore sortis du système scolaire un âge de fin d'études qui est la moyenne de celui de ses parents auxquels on ajoute un élément correcteur en fonction de leur date de naissance pour tenir compte de l'allongement de la durée moyenne des études.
 
-Lorsque l'individu est encore en étude, son niveau scolaire est entièrement déterminé par son âge. Ce niveau d'étude servira ensuite à imputer la valeur du transfert en nature associée à l'éducation.
+Lorsque l'individu est encore dans les études, son niveau scolaire est entièrement déterminé par son âge. 
+Ce niveau d'étude servira ensuite à imputer la valeur du transfert en nature associée à l'éducation.
 
-\paragraph{Statut} Dans l'idéal, on détermine l'état à la date T+1 en fonction de l'état à la date T mais aussi des états précédents pour être plus précis. Pour l'instant deux méthodes simplistes ont été implémentées. La première calcule un score en fonction de l'âge puis tire un nombre de transition en suivant des proportions en input du modèle. La seconde sélectionne aléatoirement 2,5 \% des individus actifs et inactifs pour les faire changer de statut. Au passage à l'activité, la catégorie d'emploi est tirée au sort.
+\paragraph{Statut} Dans l'idéal, on détermine l'état à la date T+1 en fonction de l'état à la date T mais aussi des états précédents pour être plus précis. 
+Pour l'instant deux méthodes simplistes ont été implémentées. 
+La première calcule un score en fonction de l'âge puis tire un nombre de transition en suivant des proportions en input du modèle. 
+La seconde sélectionne aléatoirement 2,5 \% des individus actifs et inactifs pour les faire changer de statut. 
+Au passage à l'activité, la catégorie d'emploi est tirée au sort.
 
-\paragraph{Type d'emploi et d'employeur} Comme pour le logement, on crée un fichier d'entreprise. Tout est à faire mais on pourrait utiliser les information disponibles dans l'enquête Patrimoine, par exemple la taille de l'entreprise des salariés ou encore le secteur d'activité. Une des entreprises peut regrouper les indépendants et libéraux. Cet élément n'est pas prioritaire mais l'idée est de pouvoir simuler un marché du travail par secteur ou bien d'avoir un modèle de travailleurs indépendants ou encore de se focaliser sur un secteur d'activité particulier, la médecine par exemple. Enfin, pouvoir simuler ou imputer les taxes sur les entreprises pourraient être envisagé.
+\paragraph{Type d'emploi et d'employeur} Comme pour le logement, on crée un fichier d'entreprise. 
+Tout est à faire mais on pourrait utiliser les information disponibles dans l'enquête Patrimoine, par exemple la taille de l'entreprise des salariés ou encore le secteur d'activité. 
+Une des entreprises peut regrouper les indépendants et libéraux. 
+Cet élément n'est pas prioritaire mais l'idée est de pouvoir simuler un marché du travail par secteur ou bien d'avoir un modèle de travailleurs indépendants ou encore de se focaliser sur un secteur d'activité particulier, la médecine par exemple. 
+Enfin, pouvoir simuler ou imputer les taxes sur les entreprises pourrait être envisagé.
 
-\paragraph{Salaire et revenus} Les salaires sont pour l'instant imputés à partir d'une équation de Mincer relativement simple. Si la personne a un revenu d'activité initialement, on détermine une productivité individuelle comme étant le rapport entre son salaire et le salaire de l'équation de Mincer. Pour les autres, la productivité est tirée aléatoirement. Par la suite, l'équation de Mincer sera toujours multipliée par la productivité pour déterminer les salaires.
+\paragraph{Salaire et revenus} Les salaires sont pour l'instant imputés à partir d'une équation de Mincer relativement simple. 
+Si la personne a un revenu d'activité initialement, on détermine une productivité individuelle comme étant le rapport entre son salaire et le salaire de l'équation de Mincer. 
+Pour les autres, la productivité est tirée aléatoirement. 
+Par la suite, l'équation de Mincer sera toujours multipliée par la productivité pour déterminer les salaires.
 
 \paragraph{Retraites} Le passage à la retraite est pour l'instant entièrement déterminé par l'âge.
 
 
 \subsubsection{Épargne et consommation}
 
-Un taux d'épargne est simulé. Il faut ensuite déterminer la structure de consommation ainsi que la structure d'épargne. L'achat immobilier demandera une imputation particulière.
+Un taux d'épargne est simulé. 
+Il faut ensuite déterminer la structure de consommation ainsi que la structure d'épargne. L'achat immobilier demandera une imputation particulière.
 On se servira de l'enquête Budget des Familles, pour imputer une structure de consommation en catégorie permettant de calculer les taxes sur la consommation. \\
 
-A partir du nouveau stock d'épargne de la période T, on détermine des revenus du patrimoine à la période T+1. Lors du décès d'un individu, on répartit son capital parmi ses héritiers connus dans le modèle (conjoint, enfants et parents). Si l'individu n'est lié à personne au moment de son décès, on considère pour l'instant le capital perdu. Dans un avenir proche, les droits de succession seront aussi calculés.
+A partir du nouveau stock d'épargne de la période T, on détermine des revenus du patrimoine à la période T+1. Lors du décès d'un individu, on répartit son capital parmi ses héritiers connus dans le modèle (conjoint, enfants et parents). 
+Si l'individu n'est lié à personne au moment de son décès, on considère pour l'instant le capital comme perdu. 
+Dans un avenir proche, les droits de succession seront aussi calculés.
 
 \subsubsection{Calcul de la législation} 
 
-En fin de simulation, la législation est calculée. Cela inclut les cotisations salariales, l'impôt sur le revenu, l'impôt sur la fortune, le bouclier fiscal et les prestations. Les prestations associées au handicap sont déjà simulées mais cette information n'est pas encore dans la projection de la population. Les taxes (habitation et foncière) sont encore à travailler. Tout le volet santé est aussi à travailler. La simulation peut-être effectué \textit{ex post} ou bien à chaque période. Ces deux options permettent de mesurer l'impact d'une réforme à comportement inchangé mais aussi de permettre des réactions comportementales. \\
+En fin de simulation, la législation est calculée. 
+Cela inclut les cotisations salariales, l'impôt sur le revenu, l'impôt sur la fortune, le bouclier fiscal et les prestations. 
+Les prestations associées au handicap sont déjà simulées mais cette information n'est pas encore dans la projection de la population.
+Les taxes (habitation et foncière) sont encore à travailler. 
+Tout le volet santé est aussi à travailler. 
+La simulation peut être effectuée \textit{ex post} ou bien à chaque période. Ces deux options permettent de mesurer l'impact d'une réforme à comportement inchangé mais aussi de permettre des réactions comportementales. \\
 
 Le chômage est calculé directement dans la simulation. 
 
