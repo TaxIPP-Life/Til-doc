@@ -4,48 +4,83 @@ Ce chapitre présente les données à partir desquelles ont estime l'impact du syst
 
 \section{Les carrières passées} 
 
-L'intérêt de la microsimulation est de pouvoir quantifier les effets réels des politiques publiques en tenant compte de la diversité et de la complexité des situations ce que ne permettent pas les études à partir de cas-type. Il est donc important d'avoir une source représentative de la population, de la population française dans notre cas. L'enquête retenue pour pensipp est l'\textbf{enquête patrimoine}. 
+L'intérêt de la microsimulation est de pouvoir quantifier les effets réels des politiques publiques en tenant compte de la diversité et de la complexité des situations ce que ne permettent pas les études à partir de cas-type. 
+Il est donc important d'avoir une source représentative de la population, de la population française dans notre cas. 
+L'enquête retenue pour \txl est l'\textbf{enquête patrimoine}. 
 
 \subsection{Intérêt de l'enquête patrimoine}
 
-L'enquête patrimoine est une enquête de ménages au niveau nationale. Pensipp s'appuie sur la verion 2010 de cette enquête. Comme son nom l'indique, l'objectif premier de cette enquête  est de connaître le patrimoine détenu par les ménages. Mais ce qui rend cette enquête intéressante pour Pensipp est la présence dans l'enquête d'une biographie professionnelle. C'est élément est décisif pour pouvoir calculer les pensions de retraite dont le calcul dépend de l'ensemble de la carrière. Outre la carrière et le revenu des individus, il est aussi nécessaire de connaitre la situation conjugale des individus en particulier pour calculer les pensions de réversion (les droits connexes, on dit comme ça ?). C'est une justification du recours à une enquête ménage qui contient ce lien systématiquement alors que ce n'est pas le cas de toutes les données administratives et c'est aussi une raison de l'utilisation de l'enquête patrimoine qui non seulement précise la situation du ménage à la date de l'enquête mais pose aussi des questions sur l'historique du couple et les éventuelles précédentes unions.
+L'enquête patrimoine est une enquête de ménages au niveau national. \txl s'appuie sur la verion 2010 de cette enquête. 
+Comme son nom l'indique, l'objectif premier de cette enquête  est de connaître le patrimoine détenu par les ménages. 
+Mais ce qui rend cette enquête intéressante pour \txl est la présence dans l'enquête d'une biographie professionnelle. 
+Cet élément est décisif pour pouvoir calculer les pensions de retraite dont le calcul dépend de l'ensemble de la carrière. 
+Outre la carrière et le revenu des individus, il est aussi nécessaire de connaitre la situation conjugale des individus en particulier pour calculer les pensions de réversion (les droits connexes, on dit comme ça ?). 
+C'est une justification du recours à une enquête ménage qui contient ce lien systématiquement alors que ce n'est pas le cas de toutes les données administratives et c'est aussi une raison de l'utilisation de l'enquête patrimoine qui non seulement précise la situation du ménage à la date de l'enquête mais pose aussi des questions sur l'historique du couple et les éventuelles précédentes unions.
 
-On trouvera plus d'informations sur le site de l'insee \footnote{ METTRE UN LIEN ou bien une autre référence}. On y apprendra entre autres que la version 2010 de l'enquête contient environ 15 000 ménages contre 10 000 dans les précédentes enquêtes du fait d'une sur-représentation des plus hauts patrimoines.
+On trouvera plus d'informations sur le site de l'insee \footnote{ METTRE UN LIEN ou bien une autre référence}. 
+On y apprendra entre autres que la version 2010 de l'enquête contient environ 15 000 ménages contre 10 000 dans les précédentes enquêtes du fait d'une sur-représentation des plus hauts patrimoines.
 
 \subsection{Limites de l'enquête}
 
-Les limites classiques d'une enquête auprès des ménages s'appliquent. En particulier, il s'agit d'une enquête auprès des ménages ordinaires qui exclut donc les personnes vivant en foyer, en maison de retraite, en prison, etc. \\
+Les limites classiques d'une enquête auprès des ménages s'appliquent. 
+En particulier, il s'agit d'une enquête auprès des ménages ordinaires qui exclut donc les personnes vivant en foyer, en maison de retraite, en prison, etc. \\
 
-Mais la principale plus spécifique aux objectifs de pensipp concerne les carrières. Si l'enquête patrimoine donne plus d'information que la plupart des autres enquêtes disponibles en France dans ce domaine, ces informations ne sont pas complètes. En effet, ne sont enregistrées que les étapes de la vie professionnelle s'étalant sur plus d'un an et surtout les revenus ne sont pas connus. C'est pourquoi, nous avons opéré un matching statistique de l'enquête patrimoine avec des données administratives suivant précisément des carrières salariales : l'échantillon inter-régime de cotisants (voir REFERENCE pour plus de détail sur ces données). Ce matching est précisément décrit dans l'annexe \ref{annexe_matching}. L'idée est d'apparier chaque individu de l'enquête patrimoine à un individu de l'EIC qui lui ressemble (même sexe, même age, etc.) et ayant la carrière la plus proche possible (avec une définition subtile de la proximité entre deux carrière \ref{annexe_matching}). Ainsi, on obtient une base de données avec des trajectoires salariales précises et réelle tout en gardant le plus possible les déclarations à l'enquête patrimoine. 
+Mais la principale limite, plus spécifique aux objectifs de \txl concerne les carrières. 
+Si l'enquête patrimoine donne plus d'information que la plupart des autres enquêtes disponibles en France dans ce domaine, ces informations ne sont pas complètes. 
+En effet, ne sont enregistrées que les étapes de la vie professionnelle s'étalant sur plus d'un an et surtout les revenus ne sont pas connus. 
+C'est pourquoi, nous avons opéré un matching statistique de l'enquête patrimoine avec des données administratives suivant précisément des carrières salariales : l'échantillon inter-régime de cotisants (voir REFERENCE pour plus de détail sur ces données). 
+Ce matching est précisément décrit dans l'annexe \ref{annexe_matching}. 
+L'idée est d'apparier chaque individu de l'enquête patrimoine à un individu de l'EIC qui lui ressemble (même sexe, même age, etc.) et ayant la carrière la plus proche possible (avec une définition subtile de la proximité entre deux carrière \ref{annexe_matching}).
+Ainsi, on obtient une base de données avec des trajectoires salariales précises et réelles tout en gardant le plus possible les déclarations à l'enquête patrimoine. 
 
+
+%Je suppose que c'est au moins une section et non une subsection. Cela n'a pas grand chose à voir avec ce qui précède en tout cas.
 \subsection{Fermeture de l'échantillon}
 
 La création de lien parent enfant est un des points techniques importants du modèle. 
-Motivation 
+
+\subsubsection{Motivation }
 D'abord, on a besoin des ces liens car on veut créer un système d'héritage, de persistance de la richesse, etc. 
 On en a besoin pour tous les liens intergénérationnels : pension alimentaire, prise en charge de l'éducation, aide pour la dépendance, etc. 
 Il faut aussi avoir en tête que l'on va remonter dans le passé des individus et que a un moment dans leur histoire, les parents d'un enfant ont vécu ensemble, en général. 
-Enfin,  ces liens sont centraux parce qu'il nécessite, comme tous les liens entre ménage que les ménages soient de pondération voisine. Sur ce cas précis des liens parents enfants, le fait de répliquer l'échantillon permet d'avoir un nombre similaire de parents cherchant un enfant et d'enfant cherchant un parent ce qui ne serait pas le cas si on regardait les données d'origine en ne tenant pas compte de leur pondération. 
+Enfin,  ces liens sont centraux parce qu'ils nécessitent, comme tous les liens entre ménages, que les ménages soient de pondération voisine. 
+Sur ce cas précis des liens parents enfants, le fait de répliquer l'échantillon permet d'avoir un nombre similaire de parents cherchant un enfant et d'enfants cherchant un parent ce qui ne serait pas le cas si on regardait les données d'origine en ne tenant pas compte de leur pondération. 
 
-Méthode
+\subsubsection{Méthode}
 On parle d'enfant fictif dans cette partie, c'est un abus de langage mais comme tout abus de langage il est pratique. 
-	Principe
-		On crée deux tables. Dans la première, on met les enfants avec leurs caractéristiques. Dans la seconde, on construit des lignes correspondant aux enfants fictifs des ménages qui déclarent des enfants hors du domicile. Il y a donc un travail de conversion pour passer des parents à l'enfant fictif réalisé à ce moment là. 
-	Sélection
+	\paragraph{Principe}
+	On crée deux tables. Dans la première, on met les enfants avec leurs caractéristiques. Dans la seconde, on construit des lignes correspondant aux enfants fictifs des ménages qui déclarent des enfants hors du domicile. Il y a donc un travail de conversion pour passer des parents à l'enfant fictif réalisé à ce moment là. 
+	\paragraph{Sélection}
 		On prend bien sûr tous les enfants fictifs de parents, en veillant à relever à chaque fois si on cherche un enfant du couple, un enfant que d'une personne du couple. 
-		Pour les enfants, on utilise les variables per1e et mer1e qui indique si le parent est vivant et s'il vit à l'extérieur du domicile. On ne selectionne bien sûr que les individus à qui il faut bien chercher un parent (une Hypothèse consiste à rechercher les parents non connu, en faisant cela, on fait comme si le parent de l'autre côté lui déclarait l'enfant ce qui n'est pas sûr, il n'est pas sûr non plus que le lien soit important pour la transmission, etc dans ce cas très particulier)
-	Déroulement séquentiel
-		On pourrait lancer le matching ensuite directement. Seulement, on préfère agir séquentiellement. Dans un premier temps, on cherche les enfants associés à des enfants fictifs de couple. On sait que pour ces EF, il faut absolument chercher des E à qui il manque deux parents. Reciproquement en revanche, un E a qui on cherche deux parents peut très bien avoir un parent dans un ménage et un autre dans un autre.
-	Ensuite, maintenant que le fait que certains parents vivent ensemble a été exploité, on peut chercher un père et une mère relativement successivement pour tout les E.
+		Pour les enfants, on utilise les variables per1e et mer1e qui indique si le parent est vivant et s'il vit à l'extérieur du domicile. 
+		On ne sélectionne bien sûr que les individus à qui il faut bien chercher un parent (une Hypothèse consiste à rechercher les parents non connu, en faisant cela, on fait comme si le parent de l'autre côté lui déclarait l'enfant ce qui n'est pas sûr, il n'est pas sûr non plus que le lien soit important pour la transmission, etc dans ce cas très particulier)
+	\paragraph{Déroulement séquentiel}
+		On pourrait lancer le matching ensuite directement. 
+		Seulement, on préfère agir séquentiellement. 
+		Dans un premier temps, on cherche les enfants associés à des enfants fictifs de couple. 
+		On sait que pour ces EF, il faut absolument chercher des E à qui il manque deux parents. 
+		Réciproquement en revanche, un E a qui on cherche deux parents peut très bien avoir un parent dans un ménage et un autre dans un autre.
+	Ensuite, maintenant que le fait que certains parents vivent ensemble a été exploité, on peut chercher un père et une mère relativement successivement pour tous les E.
 	On pourrait exploiter le veuvage pour apparier préférentiellement les individus dont on sait qu'un des parents est décédé. 
-	Variables d'appariement 
-		On utilise les informations intrinsèques des individus comme le sexe et l'age. On utiliser aussi, la situation sur le marché du travail, le diplôme obtenu , le fait de vivre en couple ou non et le nombre d'enfant. Enfin, important pour la transmission, on utilise aussi l'information selon laquelle les grands-parents sont en vie ou non. 	
-On peut faire une première remarque sur ce jeu de variables. On n'utilise ici que des informations sur les enfants, les questions sur l'activité des parents pendant la jeunesse étant un peu compliquée à utiliser puisqu'il faut remonter dans le passé à ce moment là. On a en revanche des informations sur le patrimoine des parents que l'on pourrait utiliser plus facilement, là encore ça peut-être un gain dans l'étude des successions.
-Une deuxième remarque c'est que l'on utilise de l'information exacte du jeu de données. On pourrait utiliser des informations annexes par exemple liant le revenu des parents ou leur CSP à celle de leur enfant. On verra ci-dessous qu'avec une méthode de score cela peut se faire facilement. 
-Enfin, une remarque importante est que l'on fait confiance au matching via l'enfant pour avoir une distribution jointe des pères et des mères réaliste.  Le problème ne se pose que pour les parents ne vivant pas ensemble évidemment. On sait par exemple que dans les couples l'âge du père et de la mère est corrélé et proche. Même si la distribution générale des ages des pères et des mères est conservée, rien ne dit que la corrélation sera bonne. On pourrait donc choisir d'abord les mères par exemple, puis trouver des pères avec un âge proche. On pourrait utiliser des informations extérieures mais aussi utiliser des informations sur le passé matrimonial des parents.
+	\paragraph{Variables d'appariement }
+		On utilise les informations intrinsèques des individus comme le sexe et l'age. 
+		On utiliser aussi, la situation sur le marché du travail, le diplôme obtenu , le fait de vivre en couple ou non et le nombre d'enfant. 
+		Enfin, important pour la transmission, on utilise aussi l'information selon laquelle les grands-parents sont en vie ou non. 	
+On peut faire une première remarque sur ce jeu de variables. 
+On n'utilise ici que des informations sur les enfants, les questions sur l'activité des parents pendant la jeunesse étant un peu compliquée à utiliser puisqu'il faut remonter dans le passé à ce moment là. 
+On a en revanche des informations sur le patrimoine des parents que l'on pourrait utiliser plus facilement, là encore ça peut-être un gain dans l'étude des successions.
+Une deuxième remarque c'est que l'on utilise de l'information exacte du jeu de données. 
+On pourrait utiliser des informations annexes par exemple liant le revenu des parents ou leur CSP à celle de leur enfant. 
+On verra ci-dessous qu'avec une méthode de score cela peut se faire facilement. 
+Enfin, une remarque importante est que l'on fait confiance au matching via l'enfant pour avoir une distribution jointe des pères et des mères réaliste.  
+Le problème ne se pose que pour les parents ne vivant pas ensemble évidemment. 
+On sait par exemple que dans les couples l'âge du père et de la mère est corrélé et proche. 
+Même si la distribution générale des ages des pères et des mères est conservée, rien ne dit que la corrélation sera bonne. 
+On pourrait donc choisir d'abord les mères par exemple, puis trouver des pères avec un âge proche. 
+On pourrait utiliser des informations extérieures mais aussi utiliser des informations sur le passé matrimonial des parents.
 
- 	Choix d'appariement
-		On pourrait faire un matching précis sur certaines variables puis en relacher certaine pour apparier les peronnes qui ne l'on pas été au premier tour et ainsi de suite jusqu'à apparier tout le monde. C'est ce que fait destinie par exemple. 
+ 	\paragraph{Choix d'appariement}
+		On pourrait faire un matching précis sur certaines variables puis en relâcher certaines pour apparier les peronnes qui ne l'on pas été au premier tour et ainsi de suite jusqu'à apparier tout le monde. C'est ce que fait destinie par exemple. 
 		Ici, on choisit de construire un score. Les pondérations sont relativement arbitraires même si elles relèvent d'un certain bon sens. Cela ne suffit pas à définir le matching car avec un score, il y a plusieurs façons d'obtenir un matching. 
 Celui que l'on retient est assez basique. Il a l'avantage d'une simplicité dans le temps de calcul, l'inconvénient est par contre qu'il n'est pas optimal en général (pas plus que celui par la méthode précédente d'ailleurs). On balaye simplement les individus A que l'on veut matcher avec les individus B, pour chacun d'entre eux, on sélectionne le candidat le plus proche que l'on retire ensuite de l'ensemble B.
 Une variante qui mériterait d'être implémentée consiste à tirer aléatoirement un nombre donné de candidat de B pour chaque A et de sélectionner le meilleur parmi eux. Cela réduit encore le temps de calcul pour les gros échantillons. Et même si on rate le meilleur match pour le premier élément de A par exemple, il sera ainsi le meilleur match de quelqu'un d'autre ce qui peut être un meilleur match global. 
