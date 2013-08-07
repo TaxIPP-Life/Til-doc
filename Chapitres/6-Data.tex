@@ -29,7 +29,7 @@ Mais la principale limite, plus spécifique aux objectifs de \txl concerne les ca
 Si l'enquête patrimoine donne plus d'information que la plupart des autres enquêtes disponibles en France dans ce domaine, ces informations ne sont pas complètes. 
 En effet, ne sont enregistrées que les étapes de la vie professionnelle s'étalant sur plus d'un an et surtout les revenus ne sont pas connus. 
 C'est pourquoi, nous avons opéré un matching statistique de l'enquête patrimoine avec des données administratives suivant précisément des carrières salariales : l'échantillon inter-régime de cotisants (voir REFERENCE pour plus de détail sur ces données). 
-Ce matching est précisément décrit dans l'annexe \ref{annexe_matching}. 
+Ce matching est décrit dans l'annexe \ref{annexe_matching}. 
 L'idée est d'apparier chaque individu de l'enquête patrimoine à un individu de l'EIC qui lui ressemble (même sexe, même age, etc.) et ayant la carrière la plus proche possible (avec une définition subtile de la proximité entre deux carrière \ref{annexe_matching}).
 Ainsi, on obtient une base de données avec des trajectoires salariales précises et réelles tout en gardant le plus possible les déclarations à l'enquête patrimoine. 
 
@@ -84,7 +84,18 @@ On pourrait utiliser des informations extérieures mais aussi utiliser des inform
 		Ici, on choisit de construire un score. Les pondérations sont relativement arbitraires même si elles relèvent d'un certain bon sens. Cela ne suffit pas à définir le matching car avec un score, il y a plusieurs façons d'obtenir un matching. 
 Celui que l'on retient est assez basique. Il a l'avantage d'une simplicité dans le temps de calcul, l'inconvénient est par contre qu'il n'est pas optimal en général (pas plus que celui par la méthode précédente d'ailleurs). On balaye simplement les individus A que l'on veut matcher avec les individus B, pour chacun d'entre eux, on sélectionne le candidat le plus proche que l'on retire ensuite de l'ensemble B.
 Une variante qui mériterait d'être implémentée consiste à tirer aléatoirement un nombre donné de candidat de B pour chaque A et de sélectionner le meilleur parmi eux. Cela réduit encore le temps de calcul pour les gros échantillons. Et même si on rate le meilleur match pour le premier élément de A par exemple, il sera ainsi le meilleur match de quelqu'un d'autre ce qui peut être un meilleur match global. 
-Le lecteur intéressé pour lira une annexe sur les techniques de matching qui donne quelques idées générales sur le matching en microsimulation et en général. 
+Le lecteur intéressé pour lira une annexe sur les techniques de matching qui donne quelques idées générales sur le matching en microsimulation et en général. \newline \newline
+
+Une nouvelle fermeture de l'échantillon a été mise en place au niveau des couples. 
+Un certain nombre d'individu se déclare effectivement en couple mais dans le même temps que leur conjoint ne vit pas avec eux. 
+On fait crée aussi des liens pour associer deux personnes dans cette situation. 
+Cela permet d'avoir des couples mariés vivant hors du domicile.
+On va aussi pouvoir modéliser l'emménagement en fonction de la durée de vie du couple. 
+
+Cette création de lien comme la précédente fait l'hypothèse de la fermeture globale du champ de l'enquête.
+Cette une hypothèse relativement discutable dans la mesure où un certain nombre de personne sont en couple avec quelqu'un à l'étranger ou bien ont leurs parents ou leurs enfants dans un autre pays.
+Ce que l'on fait revient à dire que les individus à l'étranger peuvent être représenté par quelqu'un en France métropolitaine.
+
 
 
 
