@@ -72,8 +72,8 @@ Bien sûr, on ne saurait trop recommander l'usage de RStudio, une interface visue
 
 Pour que Python et R puissent se parler, il faut modifier le path system comme l'explique la documentation du package rpy2. Il faut procéder de la même manière qu'en 7.1.1, mais cette fois créer deux nouvelles variables (voir note de bas de page \ref{path}):
 \begin{itemize}
-\item R\_HOME : Path to your R folder (For example C:\textbackslash Program Files\textbackslash R\textbackslash R-2.15.2).
-\item R\_USER : Your name. I must confess I didn't find what it is for.
+\item R\_ HOME : Path to your R folder (For example C:\textbackslash Program Files\textbackslash R\textbackslash R-2.15.2).
+\item R\_ USER : Your name. I must confess I didn't find what it is for.
 \end{itemize}
 
 \subsection{Et Aptana, \LaTeX \ ? Et Git ? }
@@ -126,7 +126,7 @@ Avant de faire cela, il faut veiller à ce qu'Aptana puisse lancer Python.
 
 
 Dans \emph{Window/Preferences/PyDev/Interpreter Python}, il faut ajouter le python.exe que vous venez d'installer.
-Ceci peut se faire en appuyant sur Auto Config\footnote{Si cela ne marche pas, il est possible que cela soit dû à une mauvaise redéfinition de la variable d'environnement Path au \ref{InstallPython}.  \\
+Ceci peut se faire en appuyant sur Auto Config\footnote{Si cela ne marche pas, il est possible que cela soit dû à une mauvaise redéfinition de la variable d'environnement Path au \ref{InstallPython}}.  \\
 
 
 \subsection{Associer les extension .yml à notepad++}
@@ -137,12 +137,12 @@ Tout est dit, pour plus de lisibilité, on recommande l'utilisation de notepad++ 
 \section{Ma première simulation}
 
 Avant de lancer la première simulation, il faut modifier les chemins auxquels Python fait référence pour faire tourner \txl \ en utilisant les deux modules til-liam et \of.
-Il y a dans le dossier Til\textbackslash pgm un fichier CONFIG_to_rename.py . 
+Il y a dans le dossier Til\textbackslash pgm un fichier CONFIG\_ to\_ rename.py . 
 Il faut l'ouvrir et le sauvegarde sous CONFIG.py sans le modifier d'abord.
 Ensuite, il faut changer les noms en fonction des répértoires d'installation\footnote{On fait cela pour ne pas avoir de changement de configuration entre les différents utilisateurs à chaque synchronisation via GitHub}. 
 On trouvera un fichier équivalent en R, au niveau du travail sur les données mais qui est amené à disparaitre avec le passage de cette partie en Python. \\
 
-Pour lancer une simulation, il faut ouvrir run\_ til.py (dans Aptana) qui se trouve dans le dossier Til\textbackslash pgm.
+%Pour lancer une simulation, il faut ouvrir run\_ til.py (dans Aptana) qui se trouve dans le dossier Til\textbackslash pgm.
 Ensuite, il faut lancer (Ctrl+F11) le programme.
 Mais avant cela, il faut mettre que dans le fichier console.yml, le champ 'input' contient bien 'test.h5'.
 Attention, ce ne doit pas être le cas en général.
@@ -153,7 +153,7 @@ Mais, là encore, il faut un peu modifier un fichier yml, import\_ patrimoineR.ym
 l'occurrence.
 Il faut changer le output en test.h5 et veiller à ce que tous les fichiers .Rdata nommé dans le fichier face référence à subset.Rdata. \\
 
-Encore plus loin, si vous voulez faire tourner les données depuis leur création à partir de l'enquête patrimoine, il faut faire tourné run\_all.R dans le fichier Til\textbackslash data\textbackslash Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
+Encore plus loin, si vous voulez faire tourner les données depuis leur création à partir de l'enquête patrimoine, il faut faire tourné run\_ all.R dans le fichier Til\textbackslash data\textbackslash Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
 Pour ce premier exemple, il faut mettre non à toutes les options autres que option\_ run au début de ce programme.
 Au moment où j'écris ces lignes, il reste quelques soucis puisque la table retro est associé au fichier alors que cela ne devrait pas.
 Il y a encore un peu de travail sur ces données initiales de toute façon.
