@@ -3,7 +3,7 @@ On essaie de faire en sorte qu'aucune connaissance préalable ne soit requise.
 
 On définit deux grandes étapes.
 La première est l'installation des programmes Python et R qui permettront de faire tourner les programmes de \txl.
-On considère qu'il s'agit de l'environnement de l'ordinateur puisqu'il ne s'agit pas de programmes spécifiques à \txl . 
+On considère qu'il s'agit de l'environnement de l'ordinateur puisqu'il ne s'agit pas de programmes spécifiques à \txl .
 On donnera ensuite les indications pour installer les éléments de \txl \ proprement dit.\\
 
 Avant de commencer, précisons que même si on essaie d'être le plus complet possible, il ne faut pas hésiter à utiliser internet en cas de doute (et à mettre à jour ce document).
@@ -107,7 +107,7 @@ Vous pouvez envoyer vos remarques et fichiers à alexis.eidelman@ipp.eu .\\
 
 En fait, les dossier du repository "til" ne sont pas suffisants.
 Il faudra aussi, installer OpenFisca que l'on peut trouver aussi sur GitHub : \url{https://github.com/openfisca/openfisca}.
-Attention, il faut passer à la branche 'dev' et quitter la branche 'master' de \of \ qui n'est pas à jour. 
+Attention, il faut passer à la branche 'dev' et quitter la branche 'master' de \of \ qui n'est pas à jour.
 
 \paragraph{Pourquoi pas un seul dossier ?}
 OpenFisca et Liam2 sont des projets dissociés de \txl .
@@ -133,27 +133,32 @@ Ceci peut se faire en appuyant sur Auto Config\footnote{Si cela ne marche pas, i
 
 Tout est dit, pour plus de lisibilité, on recommande l'utilisation de notepad++ comme cela a été pensé par l'équipe de Liam2.
 
-
 \section{Ma première simulation}
 
+\subsection{étapes préalables au lancement de la simulation}
 Avant de lancer la première simulation, il faut modifier les chemins auxquels Python fait référence pour faire tourner \txl \ en utilisant les deux modules til-liam et \of.
-Il y a dans le dossier Til\textbackslash pgm un fichier CONFIG\_ to\_ rename.py . 
-Il faut l'ouvrir et le sauvegarde sous CONFIG.py sans le modifier d'abord.
-Ensuite, il faut changer les noms en fonction des répértoires d'installation\footnote{On fait cela pour ne pas avoir de changement de configuration entre les différents utilisateurs à chaque synchronisation via GitHub}. 
+Il y a dans le dossier Til\textbackslash pgm un fichier CONFIG_to_rename.py .
+Il faut l'ouvrir et le sauvegarder sous CONFIG.py sans le modifier d'abord.
+Ensuite, il faut changer les noms en fonction des répertoires d'installatio n\footnote{On fait cela pour ne pas avoir de changement de configuration entre les différents utilisateurs à chaque synchronisation via GitHub}.
 On trouvera un fichier équivalent en R, au niveau du travail sur les données mais qui est amené à disparaitre avec le passage de cette partie en Python. \\
 
-%Pour lancer une simulation, il faut ouvrir run\_ til.py (dans Aptana) qui se trouve dans le dossier Til\textbackslash pgm.
-Ensuite, il faut lancer (Ctrl+F11) le programme.
-Mais avant cela, il faut mettre que dans le fichier console.yml, le champ 'input' contient bien 'test.h5'.
-Attention, ce ne doit pas être le cas en général.
-Il faut aussi que la ligne "file2h5(fichier)" soit commentée dans run\_ til.py. \\
+Dans le fichier console.yml, il faut également vérifier que la table sur laquelle va tourner la simulation correspond à celle souhaitée :
+\begin{itemize}
+\item  \textit{Si la simulation porte sur les données fournies par TaxIPP-life} : vérifier que le champ 'input' contient bien 'test.h5'. Attention, ce ne doit pas être le cas en général.
+\itel \textit{Si la simulation porte sur vos propres données} : il faudra apporter les modifications nécessaires au fichier import\_ patrimoineR.yml et la spécification des chemins correpondants aux tables aura lieu à l'étape suivante.
+\end{itemize}
 
-Si vous n'avez pas test.h5 ou surtout, si vous voulez désormais importer vos données, vous pouvez décommenter la ligne "file2h5(fichier)".
-Mais, là encore, il faut un peu modifier un fichier yml, import\_ patrimoineR.yml en
-l'occurrence.
+\subsection{Lancement de la simulation}
+
+Le lancement à proprement parler de la simulation se fait avec run\_ til.py (dans Aptana) qui se trouve dans le dossier Til\textbackslash pgm.
+Ensuite, il faut lancer (Ctrl+F11) le programme.\\
+
+Dans le cas, où la simulation a lieu sur 'test.h5', la ligne "file2h5(fichier)" devra être commentée dans run\_ til.py. \\
+Si vous voulez désormais importer vos données, vous pouvez décommenter cette ligne et spécifier les chemins
+
 Il faut changer le output en test.h5 et veiller à ce que tous les fichiers .Rdata nommé dans le fichier face référence à subset.Rdata. \\
 
-Encore plus loin, si vous voulez faire tourner les données depuis leur création à partir de l'enquête patrimoine, il faut faire tourné run\_ all.R dans le fichier Til\textbackslash data\textbackslash Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
+Encore plus loin, si vous voulez faire tourner les données depuis leur création à partir de l'enquête patrimoine, il faut faire tourné run\_all.R dans le fichier Til\textbackslash data\textbackslash Patrimoine (en ayant précisé le chemin de l'enquête patrimoine 2010).
 Pour ce premier exemple, il faut mettre non à toutes les options autres que option\_ run au début de ce programme.
 Au moment où j'écris ces lignes, il reste quelques soucis puisque la table retro est associé au fichier alors que cela ne devrait pas.
 Il y a encore un peu de travail sur ces données initiales de toute façon.
